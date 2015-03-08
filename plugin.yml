@@ -1,0 +1,11 @@
+name: ArborianProtect
+author: JCThePants
+main: com.jcwhatever.arborianprotect.ArborianProtect
+version: 0.1-beta
+depend: [NucleusFramework]
+commands:
+    arborianprotect:
+        aliases: [protect, pro]
+        description: Base command for ArborianProtect
+        usage: |
+            ERROR!
