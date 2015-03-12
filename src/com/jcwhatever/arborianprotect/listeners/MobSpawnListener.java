@@ -26,13 +26,12 @@ package com.jcwhatever.arborianprotect.listeners;
 
 import com.jcwhatever.arborianprotect.ArborianProtect;
 import com.jcwhatever.arborianprotect.IProtected;
-import com.jcwhatever.arborianprotect.filters.MobSpawnFilter;
 import com.jcwhatever.arborianprotect.filters.FilterPolicy;
+import com.jcwhatever.arborianprotect.filters.MobSpawnFilter;
 import com.jcwhatever.arborianprotect.regions.ProtectedRegion;
 import com.jcwhatever.arborianprotect.worlds.ProtectedWorld;
 import com.jcwhatever.nucleus.Nucleus;
 
-import org.bukkit.entity.Chicken;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -67,11 +66,6 @@ public class MobSpawnListener implements Listener {
         ProtectedWorld world = ArborianProtect.getWorldManager().get(worldName);
         if (world != null) {
             processSpawnEvent(world, event);
-        }
-
-        if (!event.isCancelled() && event.getEntity() instanceof Chicken &&
-                event.getLocation().getWorld().getName().equalsIgnoreCase("Spawn")) {
-            throw new IllegalStateException();
         }
     }
 
