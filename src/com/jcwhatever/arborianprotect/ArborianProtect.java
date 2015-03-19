@@ -81,17 +81,10 @@ public class ArborianProtect extends NucleusPlugin {
     protected void onPreEnable() {
 
         _instance = this;
-
-        // setup listeners in pre-enable to ensure they
-        // are running when server first starts
-        registerEventListeners(
-                new BlockListener(),
-                new MobSpawnListener(),
-                new PlayerListener());
     }
 
     @Override
-    protected void onEnablePlugin() {
+    protected void onPostPreEnable() {
 
         IDataNode worldNode = DataStorage.get(this, new DataPath("worlds"));
         worldNode.load();
@@ -101,6 +94,17 @@ public class ArborianProtect extends NucleusPlugin {
 
         _worldManager = new ProtectedWorldManager(worldNode);
         _regionManager = new ProtectedRegionManager(regionNode);
+
+        // setup listeners in post pre-enable to ensure they
+        // are running when server first starts
+        registerEventListeners(
+                new BlockListener(),
+                new MobSpawnListener(),
+                new PlayerListener());
+    }
+
+    @Override
+    protected void onEnablePlugin() {
 
         registerCommands(new Dispatcher(this));
     }
