@@ -31,10 +31,17 @@ import com.jcwhatever.arborianprotect.listeners.PlayerListener;
 import com.jcwhatever.arborianprotect.regions.ProtectedRegionManager;
 import com.jcwhatever.arborianprotect.worlds.ProtectedWorldManager;
 import com.jcwhatever.nucleus.NucleusPlugin;
+import com.jcwhatever.nucleus.collections.players.PlayerSet;
 import com.jcwhatever.nucleus.storage.DataPath;
 import com.jcwhatever.nucleus.storage.DataStorage;
 import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.text.TextColor;
+
+import org.bukkit.entity.Player;
+
+import java.util.Set;
+import javax.annotation.Nullable;
 
 /**
  * A lightweight world and region protection plugin.
@@ -45,6 +52,7 @@ public class ArborianProtect extends NucleusPlugin {
 
     private ProtectedWorldManager _worldManager;
     private ProtectedRegionManager _regionManager;
+    private Set<Player> _exemptPlayers;
 
     /**
      * Get the current plugin instance.
@@ -65,6 +73,40 @@ public class ArborianProtect extends NucleusPlugin {
      */
     public static ProtectedRegionManager getRegionManager() {
         return _instance._regionManager;
+    }
+
+    /**
+     * Determine if a player is exempt from Player Event filters.
+     *
+     * <p>Used by admins for building in protected areas.</p>
+     *
+     * @param player  The player to check.
+     */
+    public static boolean isExempt(@Nullable Player player) {
+        return player != null &&
+                !(_instance == null || _instance._exemptPlayers == null) &&
+                _instance._exemptPlayers.contains(player);
+    }
+
+    /**
+     * Set a players exemption from player event filters.
+     *
+     * <p>Exemptions are automatically removed when the player logs out or the
+     * server is restarted.</p>
+     *
+     * @param player    The player to set.
+     * @param isExempt  True to exempt player, false to remove exemption.
+     */
+    public static void setExempt(Player player, boolean isExempt) {
+        PreCon.notNull(player);
+
+        if (_instance == null)
+            return;
+
+        if (isExempt)
+            _instance._exemptPlayers.add(player);
+        else
+            _instance._exemptPlayers.remove(player);
     }
 
     @Override
@@ -106,6 +148,7 @@ public class ArborianProtect extends NucleusPlugin {
     @Override
     protected void onEnablePlugin() {
 
+        _exemptPlayers = new PlayerSet(this);
         registerCommands(new Dispatcher(this));
     }
 

@@ -24,6 +24,7 @@
 
 package com.jcwhatever.arborianprotect.listeners;
 
+import com.jcwhatever.arborianprotect.ArborianProtect;
 import com.jcwhatever.arborianprotect.IProtected;
 import com.jcwhatever.arborianprotect.filters.FilterPermission;
 import com.jcwhatever.nucleus.utils.materials.Materials;
@@ -177,7 +178,11 @@ public class PlayerListener implements Listener {
     private void onPvp(EntityDamageByEntityEvent event) {
 
         if (!(event.getEntity() instanceof Player ||
-                !(event.getDamager() instanceof Player)))
+                !(event.getDamager() instanceof Player))) {
+            return;
+        }
+
+        if (ArborianProtect.isExempt((Player)event.getDamager()))
             return;
 
         Location location = event.getEntity().getLocation(PVP_LOCATION);
@@ -187,6 +192,9 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private void onPlayerBreakBlock(BlockBreakEvent event) {
+
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
 
         Location location = event.getBlock().getLocation(BLOCK_BREAK_LOCATION);
         BREAK.processEvent(location, event);
@@ -198,12 +206,18 @@ public class PlayerListener implements Listener {
         if (!(event.getRemover() instanceof Player))
             return;
 
+        if (ArborianProtect.isExempt((Player) event.getRemover()))
+            return;
+
         Location location = event.getEntity().getLocation(HANGING_BREAK_LOCATION);
         BREAK.processEvent(location, event);
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private void onPlaceBlock(BlockPlaceEvent event) {
+
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
 
         Location location = event.getBlockPlaced().getLocation(BLOCK_PLACE_LOCATION);
         PLACE.processEvent(location, event);
@@ -212,6 +226,9 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private void onPlaceMultiBlock(BlockMultiPlaceEvent event) {
 
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
+
         Location location = event.getBlockPlaced().getLocation(BLOCK_PLACE_LOCATION);
         PLACE.processEvent(location, event);
     }
@@ -219,12 +236,18 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private void onHangingPlaced(HangingPlaceEvent event) {
 
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
+
         Location location = event.getEntity().getLocation(HANGING_PLACE_LOCATION);
         PLACE.processEvent(location, event);
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private void onIgnite(BlockIgniteEvent event) {
+
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
 
         if (event.getCause() != IgniteCause.FLINT_AND_STEEL || event.getPlayer() == null)
             return;
@@ -235,6 +258,9 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private void onUseMachine(PlayerInteractEvent event) {
+
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
 
         if (!event.hasBlock())
             return;
@@ -250,6 +276,9 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private void onThrowSwitch(PlayerInteractEvent event) {
 
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
+
         if (!event.hasBlock())
             return;
 
@@ -263,6 +292,9 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private void onOpenDoor(PlayerInteractEvent event) {
+
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
 
         if (!event.hasBlock())
             return;
@@ -278,6 +310,9 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private void onOpenGate(PlayerInteractEvent event) {
 
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
+
         if (!event.hasBlock())
             return;
 
@@ -292,6 +327,9 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private void onOpenTrapDoor(PlayerInteractEvent event) {
 
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
+
         if (!event.hasBlock())
             return;
 
@@ -305,6 +343,9 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private void onOpenChest(PlayerInteractEvent event) {
+
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
 
         if (!event.hasBlock())
             return;
@@ -321,6 +362,9 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private void onTrampleCrops(PlayerInteractEvent event) {
 
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
+
         if (!event.hasBlock() || event.getAction() != Action.PHYSICAL)
             return;
 
@@ -334,6 +378,9 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private void onChat(PlayerCommandPreprocessEvent event) {
+
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
 
         if (event.getMessage().isEmpty() ||
                 event.getMessage().charAt(0) == '\\')

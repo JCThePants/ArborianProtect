@@ -49,6 +49,7 @@ public class Dispatcher extends CommandDispatcher {
     @Override
     protected void registerCommands() {
         registerCommand(BlocksCommand.class);
+        registerCommand(ExemptCommand.class);
         registerCommand(MobSpawnsCommand.class);
         registerCommand(PlayersCommand.class);
         registerCommand(RegionsCommand.class);
