@@ -182,8 +182,10 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        if (ArborianProtect.isExempt((Player)event.getDamager()))
+        if (event.getDamager() instanceof Player &&
+                ArborianProtect.isExempt((Player)event.getDamager())) {
             return;
+        }
 
         Location location = event.getEntity().getLocation(PVP_LOCATION);
 
