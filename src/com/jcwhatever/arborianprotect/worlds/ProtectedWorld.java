@@ -106,7 +106,7 @@ public class ProtectedWorld implements IProtected, IDataNodeSerializable {
 
         _name = dataNode.getString("name");
         if (_name == null || _name.isEmpty())
-            throw new DeserializeException();
+            throw new DeserializeException("name value not found");
 
         _searchName = _name.toLowerCase();
 
