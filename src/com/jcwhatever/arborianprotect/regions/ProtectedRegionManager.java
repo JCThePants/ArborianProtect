@@ -25,7 +25,7 @@
 package com.jcwhatever.arborianprotect.regions;
 
 import com.jcwhatever.arborianprotect.ArborianProtect;
-import com.jcwhatever.nucleus.regions.selection.IRegionSelection;
+import com.jcwhatever.nucleus.providers.regionselect.IRegionSelection;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.managers.NamedInsensitiveDataManager;
