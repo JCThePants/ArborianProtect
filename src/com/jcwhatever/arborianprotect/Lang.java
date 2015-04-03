@@ -24,7 +24,7 @@
 
 package com.jcwhatever.arborianprotect;
 
-import com.jcwhatever.nucleus.utils.language.Localized;
+import com.jcwhatever.nucleus.managed.language.Localized;
 
 /**
  * Static convenience methods for localization.
@@ -43,7 +43,7 @@ public class Lang {
      */
     @Localized
     public static String get(String text, Object... args) {
-        return ArborianProtect.getPlugin().getLanguageManager().get(text, args);
+        return ArborianProtect.getPlugin().getLanguageContext().get(text, args);
     }
 }
 
