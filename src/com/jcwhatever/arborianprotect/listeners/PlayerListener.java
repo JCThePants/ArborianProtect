@@ -72,7 +72,7 @@ public class PlayerListener implements Listener {
             new EventProcessor<EntityDamageByEntityEvent>() {
                 @Override
                 public FilterPermission getPermission(IProtected target) {
-                    return target.getPlayerEventFilter().getBreak();
+                    return target.getPlayerEventFilter().getPVP();
                 }
                 @Override
                 protected void setCancelled(EntityDamageByEntityEvent event, boolean isCancelled) {
