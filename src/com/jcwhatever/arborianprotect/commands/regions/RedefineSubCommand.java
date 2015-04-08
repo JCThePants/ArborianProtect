@@ -28,11 +28,12 @@ import com.jcwhatever.arborianprotect.ArborianProtect;
 import com.jcwhatever.arborianprotect.Lang;
 import com.jcwhatever.arborianprotect.commands.AbstractProtectCommand;
 import com.jcwhatever.arborianprotect.regions.ProtectedRegion;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.providers.regionselect.IRegionSelection;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
+import com.jcwhatever.nucleus.providers.regionselect.IRegionSelection;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -46,7 +47,7 @@ import org.bukkit.entity.Player;
                 "regionName= The name of the region to redefine.",
         })
 
-public final class RedefineSubCommand extends AbstractProtectCommand {
+public final class RedefineSubCommand extends AbstractProtectCommand implements IExecutableCommand {
 
     @Localizable static final String _NOT_FOUND =
             "A protected region named '{0: region name}' was not found.";
@@ -55,9 +56,9 @@ public final class RedefineSubCommand extends AbstractProtectCommand {
             "Region '{0: region name}' coordinates redefined to your current region selection.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
-        CommandException.checkNotConsole(this, sender);
+        CommandException.checkNotConsole(getPlugin(), this, sender);
 
         String name = args.getName("regionName", 45);
 

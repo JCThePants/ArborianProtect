@@ -26,9 +26,10 @@ package com.jcwhatever.arborianprotect.commands;
 
 import com.jcwhatever.arborianprotect.ArborianProtect;
 import com.jcwhatever.arborianprotect.Lang;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.utils.player.PlayerUtils;
 
@@ -46,7 +47,7 @@ import org.bukkit.entity.Player;
                 "remove= Include flag to remove exemption."
         })
 
-public final class ExemptCommand extends AbstractProtectCommand {
+public final class ExemptCommand extends AbstractProtectCommand implements IExecutableCommand {
 
     @Localizable static final String _PLAYER_NOT_FOUND =
             "Player not found.";
@@ -58,12 +59,12 @@ public final class ExemptCommand extends AbstractProtectCommand {
             "'{0: player name}' added to player event filter exemptions.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         Player player;
 
         if (args.isDefaultValue("playerName")) {
-            CommandException.checkNotConsole(this, sender);
+            CommandException.checkNotConsole(getPlugin(), this, sender);
 
             player = (Player)sender;
         }

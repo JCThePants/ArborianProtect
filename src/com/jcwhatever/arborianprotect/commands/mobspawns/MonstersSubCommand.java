@@ -27,9 +27,10 @@ package com.jcwhatever.arborianprotect.commands.mobspawns;
 import com.jcwhatever.arborianprotect.IProtected;
 import com.jcwhatever.arborianprotect.Lang;
 import com.jcwhatever.arborianprotect.commands.AbstractProtectCommand;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 
 import org.bukkit.command.CommandSender;
@@ -49,7 +50,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
                 "natural= Include this flag to target only natural spawns."
         })
 
-public final class MonstersSubCommand extends AbstractProtectCommand {
+public final class MonstersSubCommand extends AbstractProtectCommand implements IExecutableCommand {
 
     @Localizable static final String _REMOVED =
             "Monsters removed from spawn filter in '{0: target}'.";
@@ -58,7 +59,7 @@ public final class MonstersSubCommand extends AbstractProtectCommand {
             "Monsters added to spawn filter in '{0: target}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         boolean isRemove = args.getBoolean("remove");
         SpawnReason reason = args.getBoolean("natural")

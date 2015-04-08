@@ -27,11 +27,12 @@ package com.jcwhatever.arborianprotect.commands.regions;
 import com.jcwhatever.arborianprotect.ArborianProtect;
 import com.jcwhatever.arborianprotect.Lang;
 import com.jcwhatever.arborianprotect.commands.AbstractProtectCommand;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.providers.regionselect.IRegionSelection;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
+import com.jcwhatever.nucleus.providers.regionselect.IRegionSelection;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -45,7 +46,7 @@ import org.bukkit.entity.Player;
                 "regionName= The name of the region to create.",
         })
 
-public final class AddSubCommand extends AbstractProtectCommand {
+public final class AddSubCommand extends AbstractProtectCommand implements IExecutableCommand {
 
     @Localizable static final String _ALREADY_EXISTS =
             "A protected region named '{0: region name}' already exists.";
@@ -57,9 +58,9 @@ public final class AddSubCommand extends AbstractProtectCommand {
             "Added protected region '{0: region name}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
-        CommandException.checkNotConsole(this, sender);
+        CommandException.checkNotConsole(getPlugin(), this, sender);
 
         String name = args.getName("regionName", 45);
 

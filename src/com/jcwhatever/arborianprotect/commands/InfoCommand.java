@@ -27,11 +27,12 @@ package com.jcwhatever.arborianprotect.commands;
 import com.jcwhatever.arborianprotect.ArborianProtect;
 import com.jcwhatever.arborianprotect.IProtected;
 import com.jcwhatever.arborianprotect.Lang;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
+import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 
 import org.bukkit.command.CommandSender;
@@ -49,7 +50,7 @@ import org.bukkit.command.CommandSender;
                 "world= Include this flag to specify that the target is a world."
         })
 
-public final class InfoCommand extends AbstractProtectCommand {
+public final class InfoCommand extends AbstractProtectCommand implements IExecutableCommand {
 
     @Localizable static final String _PAGINATOR_TITLE =
             "Filters: {0: target}";
@@ -64,7 +65,7 @@ public final class InfoCommand extends AbstractProtectCommand {
             "MOB SPAWNING";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         int page = args.getInteger("page");
 

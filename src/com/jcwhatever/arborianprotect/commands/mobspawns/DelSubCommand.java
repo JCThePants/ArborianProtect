@@ -27,9 +27,10 @@ package com.jcwhatever.arborianprotect.commands.mobspawns;
 import com.jcwhatever.arborianprotect.IProtected;
 import com.jcwhatever.arborianprotect.Lang;
 import com.jcwhatever.arborianprotect.commands.AbstractProtectCommand;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 
 import org.bukkit.command.CommandSender;
@@ -50,7 +51,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
                 "world= Include this flag to specify that the target is a world."
         })
 
-public final class DelSubCommand extends AbstractProtectCommand {
+public final class DelSubCommand extends AbstractProtectCommand implements IExecutableCommand {
 
     @Localizable static final String _SUCCESS_TYPE_ONLY =
             "Mob spawn filter for type '{0: entity type}' removed from '{1: target}'.";
@@ -59,7 +60,7 @@ public final class DelSubCommand extends AbstractProtectCommand {
             "Mob spawn filter for type '{0: entity type}' and reason '{1: reason}' removed from '{2: target}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         EntityType entityType = args.getEnum("entityType", EntityType.class);
         SpawnReason reason = args.isDefaultValue("spawnReason")

@@ -27,9 +27,10 @@ package com.jcwhatever.arborianprotect.commands.regions;
 import com.jcwhatever.arborianprotect.ArborianProtect;
 import com.jcwhatever.arborianprotect.Lang;
 import com.jcwhatever.arborianprotect.commands.AbstractProtectCommand;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 
 import org.bukkit.command.CommandSender;
@@ -43,7 +44,7 @@ import org.bukkit.command.CommandSender;
                 "regionName= The name of the region to remove.",
         })
 
-public final class DelSubCommand extends AbstractProtectCommand {
+public final class DelSubCommand extends AbstractProtectCommand implements IExecutableCommand {
 
     @Localizable static final String _NOT_FOUND =
             "A protected region named '{0: region name}' was not found.";
@@ -55,7 +56,7 @@ public final class DelSubCommand extends AbstractProtectCommand {
             "Removed protected region '{0: region name}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         String name = args.getString("regionName");
 

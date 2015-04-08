@@ -28,9 +28,10 @@ import com.jcwhatever.arborianprotect.IProtected;
 import com.jcwhatever.arborianprotect.Lang;
 import com.jcwhatever.arborianprotect.commands.AbstractProtectCommand;
 import com.jcwhatever.arborianprotect.filters.FilterPermission;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 
 import org.bukkit.command.CommandSender;
@@ -49,13 +50,13 @@ import org.bukkit.command.CommandSender;
                 "world= Include this flag to specify that the target is a world."
         })
 
-public final class LeafDecaySubCommand extends AbstractProtectCommand {
+public final class LeafDecaySubCommand extends AbstractProtectCommand implements IExecutableCommand {
 
     @Localizable static final String _SUCCESS =
             "Leaf decay filter set to {0: permission} for target '{1: target}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IProtected target = getTarget(sender, args);
         if (target == null)

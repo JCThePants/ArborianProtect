@@ -24,7 +24,12 @@
 
 package com.jcwhatever.arborianprotect;
 
-import com.jcwhatever.arborianprotect.commands.Dispatcher;
+import com.jcwhatever.arborianprotect.commands.ExemptCommand;
+import com.jcwhatever.arborianprotect.commands.InfoCommand;
+import com.jcwhatever.arborianprotect.commands.blocks.BlocksCommand;
+import com.jcwhatever.arborianprotect.commands.mobspawns.MobSpawnsCommand;
+import com.jcwhatever.arborianprotect.commands.players.PlayersCommand;
+import com.jcwhatever.arborianprotect.commands.regions.RegionsCommand;
 import com.jcwhatever.arborianprotect.listeners.BlockListener;
 import com.jcwhatever.arborianprotect.listeners.MobSpawnListener;
 import com.jcwhatever.arborianprotect.listeners.PlayerListener;
@@ -32,8 +37,8 @@ import com.jcwhatever.arborianprotect.regions.ProtectedRegionManager;
 import com.jcwhatever.arborianprotect.worlds.ProtectedWorldManager;
 import com.jcwhatever.nucleus.NucleusPlugin;
 import com.jcwhatever.nucleus.collections.players.PlayerSet;
-import com.jcwhatever.nucleus.storage.DataPath;
 import com.jcwhatever.nucleus.providers.storage.DataStorage;
+import com.jcwhatever.nucleus.storage.DataPath;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.text.TextColor;
@@ -149,7 +154,13 @@ public class ArborianProtect extends NucleusPlugin {
     protected void onEnablePlugin() {
 
         _exemptPlayers = new PlayerSet(this);
-        registerCommands(new Dispatcher(this));
+
+        registerCommand(BlocksCommand.class);
+        registerCommand(ExemptCommand.class);
+        registerCommand(MobSpawnsCommand.class);
+        registerCommand(PlayersCommand.class);
+        registerCommand(RegionsCommand.class);
+        registerCommand(InfoCommand.class);
     }
 
     @Override

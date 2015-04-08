@@ -26,9 +26,9 @@ package com.jcwhatever.arborianprotect.commands;
 
 import com.jcwhatever.arborianprotect.ArborianProtect;
 import com.jcwhatever.arborianprotect.IProtected;
-import com.jcwhatever.nucleus.commands.AbstractCommand;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 
 import org.bukkit.command.CommandSender;
 
@@ -37,7 +37,7 @@ import org.bukkit.command.CommandSender;
  */
 public class AbstractProtectCommand extends AbstractCommand {
 
-    protected IProtected getTarget(CommandSender sender, CommandArguments args) throws CommandException {
+    protected IProtected getTarget(CommandSender sender, ICommandArguments args) throws CommandException {
 
         String name = args.getName("targetName", 45);
         boolean isWorld = args.getBoolean("world");
