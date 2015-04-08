@@ -60,15 +60,11 @@ public final class DelSubCommand extends AbstractProtectCommand implements IExec
 
         String name = args.getString("regionName");
 
-        if (!ArborianProtect.getRegionManager().contains(name)) {
-            tellError(sender, Lang.get(_NOT_FOUND, name));
-            return; // finished
-        }
+        if (!ArborianProtect.getRegionManager().contains(name))
+            throw new CommandException(Lang.get(_NOT_FOUND, name));
 
-        if (!ArborianProtect.getRegionManager().remove(name)) {
-            tellError(sender, Lang.get(_FAILED));
-            return; // finished
-        }
+        if (!ArborianProtect.getRegionManager().remove(name))
+            throw new CommandException(Lang.get(_FAILED));
 
         tellSuccess(sender, Lang.get(_SUCCESS, name));
     }

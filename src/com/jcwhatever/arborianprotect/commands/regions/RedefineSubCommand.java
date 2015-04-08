@@ -63,15 +63,10 @@ public final class RedefineSubCommand extends AbstractProtectCommand implements 
         String name = args.getName("regionName", 45);
 
         IRegionSelection selection = getRegionSelection((Player)sender);
-        if (selection == null)
-            return; // finished
-
 
         ProtectedRegion region = ArborianProtect.getRegionManager().get(name);
-        if (region == null) {
-            tellError(sender, Lang.get(_NOT_FOUND, name));
-            return; // finished
-        }
+        if (region == null)
+            throw new CommandException(Lang.get(_NOT_FOUND, name));
 
         region.setCoords(selection.getP1(), selection.getP2());
 

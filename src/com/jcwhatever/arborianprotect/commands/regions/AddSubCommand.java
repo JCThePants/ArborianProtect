@@ -65,18 +65,12 @@ public final class AddSubCommand extends AbstractProtectCommand implements IExec
         String name = args.getName("regionName", 45);
 
         IRegionSelection selection = getRegionSelection((Player)sender);
-        if (selection == null)
-            return; // finished
 
-        if (ArborianProtect.getRegionManager().contains(name)) {
-            tellError(sender, Lang.get(_ALREADY_EXISTS, name));
-            return; // finished
-        }
+        if (ArborianProtect.getRegionManager().contains(name))
+            throw new CommandException(Lang.get(_ALREADY_EXISTS, name));
 
-        if (ArborianProtect.getRegionManager().add(name, selection) == null) {
-            tellError(sender, Lang.get(_FAILED));
-            return; // finished
-        }
+        if (ArborianProtect.getRegionManager().add(name, selection) == null)
+            throw new CommandException(Lang.get(_FAILED));
 
         tellSuccess(sender, Lang.get(_SUCCESS, name));
     }

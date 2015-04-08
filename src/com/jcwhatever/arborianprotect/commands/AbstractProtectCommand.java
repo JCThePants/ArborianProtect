@@ -46,17 +46,13 @@ public class AbstractProtectCommand extends AbstractCommand {
 
         if (isWorld) {
             target = ArborianProtect.getWorldManager().getOrCreate(name);
-            if (target == null) {
-                tellError(sender, "Could not find world named '{0}'.", name);
-                return null;
-            }
+            if (target == null)
+                throw new CommandException("Could not find world named '{0}'.", name);
         }
         else {
             target = ArborianProtect.getRegionManager().get(name);
-            if (target == null) {
-                tellError(sender, "Could not find region named '{0}'.", name);
-                return null;
-            }
+            if (target == null)
+                throw new CommandException("Could not find region named '{0}'.", name);
         }
 
         return target;

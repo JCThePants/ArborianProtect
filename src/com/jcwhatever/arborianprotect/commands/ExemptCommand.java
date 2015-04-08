@@ -73,10 +73,8 @@ public final class ExemptCommand extends AbstractProtectCommand implements IExec
             player = PlayerUtils.getPlayer(playerName);
         }
 
-        if (player == null) {
-            tellError(sender, Lang.get(_PLAYER_NOT_FOUND));
-            return;
-        }
+        if (player == null)
+            throw new CommandException(Lang.get(_PLAYER_NOT_FOUND));
 
         boolean isRemove = args.getBoolean("remove");
 
