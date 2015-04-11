@@ -24,8 +24,8 @@
 
 package com.jcwhatever.arborianprotect.commands.blocks;
 
-import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 
 @CommandInfo(
         command="blocks",
@@ -37,6 +37,7 @@ public final class BlocksCommand extends AbstractCommand {
         super();
 
         registerCommand(ExplosionDamageSubCommand.class);
+        registerCommand(EntityChangeBlockSubCommand.class);
         registerCommand(FireSpreadSubCommand.class);
         registerCommand(GrassGrowthSubCommand.class);
         registerCommand(IceMeltSubCommand.class);

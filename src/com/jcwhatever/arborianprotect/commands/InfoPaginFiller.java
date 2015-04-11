@@ -70,6 +70,7 @@ public class InfoPaginFiller {
     @Localizable static final String _SNOW_MELT = "Snow Melt";
     @Localizable static final String _SOIL_DEHYDRATE = "Soil Dehydrate";
     @Localizable static final String _VINE_GROWTH = "Vine Growth";
+    @Localizable static final String _ENTITY_CHANGE_BLOCK = "Entity Change Block";
     @Localizable static final String _ALLOW = "{GREEN}Allow";
     @Localizable static final String _DENY = "{RED}Deny";
     @Localizable static final String _DEFAULT = "Default";
@@ -99,16 +100,17 @@ public class InfoPaginFiller {
 
         BlockEventFilter filter = target.getBlockEventFilter();
 
-       addPagin(pagin, _EXPLOSION_DAMAGE, filter.getExplosionDamage());
-       addPagin(pagin, _FIRE_SPREAD, filter.getFireSpread());
-       addPagin(pagin, _GRASS_GROWTH, filter.getGrassGrowth());
-       addPagin(pagin, _ICE_MELT, filter.getIceMelt());
-       addPagin(pagin, _LEAF_DECAY, filter.getLeafDecay());
-       addPagin(pagin, _MUSHROOM_GROWTH, filter.getMushroomGrowth());
-       addPagin(pagin, _MYCEL_GROWTH, filter.getMyceliumGrowth());
-       addPagin(pagin, _SNOW_MELT, filter.getSnowMelt());
-       addPagin(pagin, _SOIL_DEHYDRATE, filter.getSoilDehydrate());
-       addPagin(pagin, _VINE_GROWTH, filter.getVineGrowth());
+        addPagin(pagin, _EXPLOSION_DAMAGE, filter.getExplosionDamage());
+        addPagin(pagin, _FIRE_SPREAD, filter.getFireSpread());
+        addPagin(pagin, _GRASS_GROWTH, filter.getGrassGrowth());
+        addPagin(pagin, _ICE_MELT, filter.getIceMelt());
+        addPagin(pagin, _LEAF_DECAY, filter.getLeafDecay());
+        addPagin(pagin, _MUSHROOM_GROWTH, filter.getMushroomGrowth());
+        addPagin(pagin, _MYCEL_GROWTH, filter.getMyceliumGrowth());
+        addPagin(pagin, _SNOW_MELT, filter.getSnowMelt());
+        addPagin(pagin, _SOIL_DEHYDRATE, filter.getSoilDehydrate());
+        addPagin(pagin, _VINE_GROWTH, filter.getVineGrowth());
+        addPagin(pagin, _ENTITY_CHANGE_BLOCK, filter.getEntityChangeBlock());
     }
 
     public static void mobSpawns(ChatPaginator pagin, IProtected target) {

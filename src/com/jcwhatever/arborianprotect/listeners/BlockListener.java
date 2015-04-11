@@ -39,6 +39,7 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 import java.util.List;
@@ -53,6 +54,7 @@ public class BlockListener implements Listener {
     private static final Location BLOCK_SPREAD_LOCATION = new Location(null, 0, 0, 0);
     private static final Location BLOCK_IGNITE_LOCATION = new Location(null, 0, 0, 0);
     private static final Location EXPLOSION_LOCATION = new Location(null, 0, 0, 0);
+    private static final Location ENTITY_CHANGE_BLOCK_LOCATION = new Location(null, 0, 0, 0);
 
     private static final EventProcessor<Cancellable> LEAF_DECAY =
             new EventProcessor<Cancellable>() {
@@ -136,6 +138,14 @@ public class BlockListener implements Listener {
                 protected void setCancelled(EntityExplodeEvent event, boolean isCancelled) {
                     if (isCancelled)
                         event.blockList().clear();
+                }
+            };
+
+    private static final EventProcessor<EntityChangeBlockEvent> ENTITY_CHANGE_BLOCK_EVENT =
+            new EventProcessor<EntityChangeBlockEvent>() {
+                @Override
+                public FilterPermission getPermission(IProtected target) {
+                    return target.getBlockEventFilter().getExplosionDamage();
                 }
             };
 
@@ -225,5 +235,13 @@ public class BlockListener implements Listener {
             if (EXPLOSION_DAMAGE.processEvent(location, event))
                 return;
         }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    private void onEntityChangeBlock(EntityChangeBlockEvent event) {
+
+        Location location = event.getBlock().getLocation(ENTITY_CHANGE_BLOCK_LOCATION);
+
+        ENTITY_CHANGE_BLOCK_EVENT.processEvent(location, event);
     }
 }

@@ -46,6 +46,7 @@ public class BlockEventFilter implements IDataNodeSerializable {
     private FilterPermission _myceliumGrowth = FilterPermission.DEFAULT;
     private FilterPermission _fireSpread = FilterPermission.DEFAULT;
     private FilterPermission _explosionDamage = FilterPermission.DEFAULT;
+    private FilterPermission _entityChangeBlock = FilterPermission.DEFAULT;
 
     private BlockEventFilter() {}
 
@@ -262,6 +263,26 @@ public class BlockEventFilter implements IDataNodeSerializable {
         _dataNode.save();
     }
 
+    /**
+     * Get the entity change block permission.
+     */
+    public FilterPermission getEntityChangeBlock() {
+        return _entityChangeBlock;
+    }
+
+    /**
+     * Set the entity change block permission.
+     *
+     * @param permission  The {@link FilterPermission}.
+     */
+    public void setEntityChangeBlock(FilterPermission permission) {
+        PreCon.notNull(permission);
+
+        _entityChangeBlock = permission;
+        _dataNode.set("entity-change-block", _entityChangeBlock);
+        _dataNode.save();
+    }
+
     @Override
     public void serialize(IDataNode dataNode) {
         dataNode.set("leaf-decay", _leafDecay);
@@ -274,6 +295,7 @@ public class BlockEventFilter implements IDataNodeSerializable {
         dataNode.set("mycelium-growth", _myceliumGrowth);
         dataNode.set("fire-spread", _fireSpread);
         dataNode.set("explosion-damage", _explosionDamage);
+        dataNode.set("entity-change-block", _entityChangeBlock);
     }
 
     @Override
@@ -309,6 +331,9 @@ public class BlockEventFilter implements IDataNodeSerializable {
                 FilterPermission.DEFAULT, FilterPermission.class);
 
         _explosionDamage = dataNode.getEnum("explosion-damage",
+                FilterPermission.DEFAULT, FilterPermission.class);
+
+        _entityChangeBlock = dataNode.getEnum("entity-change-block",
                 FilterPermission.DEFAULT, FilterPermission.class);
     }
 }
