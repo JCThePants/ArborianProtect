@@ -37,7 +37,7 @@ import org.bukkit.plugin.Plugin;
 import javax.annotation.Nonnull;
 
 /**
- * A protected region. Not yet implemented.
+ * A protected region.
  */
 public class ProtectedRegion extends Region implements IProtected {
 
