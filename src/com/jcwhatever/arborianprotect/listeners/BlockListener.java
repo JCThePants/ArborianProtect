@@ -141,11 +141,11 @@ public class BlockListener implements Listener {
                 }
             };
 
-    private static final EventProcessor<EntityChangeBlockEvent> ENTITY_CHANGE_BLOCK_EVENT =
+    private static final EventProcessor<EntityChangeBlockEvent> MOB_CHANGE_BLOCK_EVENT =
             new EventProcessor<EntityChangeBlockEvent>() {
                 @Override
                 public FilterPermission getPermission(IProtected target) {
-                    return target.getBlockEventFilter().getExplosionDamage();
+                    return target.getBlockEventFilter().getMobChangeBlock();
                 }
             };
 
@@ -238,10 +238,13 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    private void onEntityChangeBlock(EntityChangeBlockEvent event) {
+    private void onMobChangeBlock(EntityChangeBlockEvent event) {
+
+        if (!event.getEntity().getType().isAlive())
+            return;
 
         Location location = event.getBlock().getLocation(ENTITY_CHANGE_BLOCK_LOCATION);
 
-        ENTITY_CHANGE_BLOCK_EVENT.processEvent(location, event);
+        MOB_CHANGE_BLOCK_EVENT.processEvent(location, event);
     }
 }

@@ -37,10 +37,10 @@ import com.jcwhatever.nucleus.managed.language.Localizable;
 import org.bukkit.command.CommandSender;
 
 @CommandInfo(
-        command="entity-change-block",
+        command="mob-change-block",
         staticParams = { "targetName", "allow|deny|default" },
         flags = { "world" },
-        description="Set entity change block filter for the specified target.",
+        description="Set mob-change-block filter for the specified target.",
 
         paramDescriptions = {
                 "targetName= The name of the target region or world. If targeting " +
@@ -50,10 +50,10 @@ import org.bukkit.command.CommandSender;
                 "world= Include this flag to specify that the target is a world."
         })
 
-public final class EntityChangeBlockSubCommand extends AbstractProtectCommand implements IExecutableCommand {
+public final class MobChangeBlockSubCommand extends AbstractProtectCommand implements IExecutableCommand {
 
     @Localizable static final String _SUCCESS =
-            "Entity Change Block filter set to {0: permission} for target '{1: target}'.";
+            "Mob Change Block filter set to {0: permission} for target '{1: target}'.";
 
     @Override
     public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
@@ -64,7 +64,7 @@ public final class EntityChangeBlockSubCommand extends AbstractProtectCommand im
 
         FilterPermission permission = args.getEnum("allow|deny|default", FilterPermission.class);
 
-        target.getBlockEventFilter().setEntityChangeBlock(permission);
+        target.getBlockEventFilter().setMobChangeBlock(permission);
 
         tellSuccess(sender, Lang.get(_SUCCESS,
                 permission.name(), target.getName()));

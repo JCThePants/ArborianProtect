@@ -46,7 +46,7 @@ public class BlockEventFilter implements IDataNodeSerializable {
     private FilterPermission _myceliumGrowth = FilterPermission.DEFAULT;
     private FilterPermission _fireSpread = FilterPermission.DEFAULT;
     private FilterPermission _explosionDamage = FilterPermission.DEFAULT;
-    private FilterPermission _entityChangeBlock = FilterPermission.DEFAULT;
+    private FilterPermission _mobChangeBlock = FilterPermission.DEFAULT;
 
     private BlockEventFilter() {}
 
@@ -266,8 +266,8 @@ public class BlockEventFilter implements IDataNodeSerializable {
     /**
      * Get the entity change block permission.
      */
-    public FilterPermission getEntityChangeBlock() {
-        return _entityChangeBlock;
+    public FilterPermission getMobChangeBlock() {
+        return _mobChangeBlock;
     }
 
     /**
@@ -275,11 +275,11 @@ public class BlockEventFilter implements IDataNodeSerializable {
      *
      * @param permission  The {@link FilterPermission}.
      */
-    public void setEntityChangeBlock(FilterPermission permission) {
+    public void setMobChangeBlock(FilterPermission permission) {
         PreCon.notNull(permission);
 
-        _entityChangeBlock = permission;
-        _dataNode.set("entity-change-block", _entityChangeBlock);
+        _mobChangeBlock = permission;
+        _dataNode.set("entity-change-block", _mobChangeBlock);
         _dataNode.save();
     }
 
@@ -295,7 +295,7 @@ public class BlockEventFilter implements IDataNodeSerializable {
         dataNode.set("mycelium-growth", _myceliumGrowth);
         dataNode.set("fire-spread", _fireSpread);
         dataNode.set("explosion-damage", _explosionDamage);
-        dataNode.set("entity-change-block", _entityChangeBlock);
+        dataNode.set("mob-change-block", _mobChangeBlock);
     }
 
     @Override
@@ -333,7 +333,7 @@ public class BlockEventFilter implements IDataNodeSerializable {
         _explosionDamage = dataNode.getEnum("explosion-damage",
                 FilterPermission.DEFAULT, FilterPermission.class);
 
-        _entityChangeBlock = dataNode.getEnum("entity-change-block",
+        _mobChangeBlock = dataNode.getEnum("mob-change-block",
                 FilterPermission.DEFAULT, FilterPermission.class);
     }
 }
