@@ -174,7 +174,7 @@ public class PlayerListener implements Listener {
 
 
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     private void onPvp(EntityDamageByEntityEvent event) {
 
         if (!(event.getEntity() instanceof Player ||
@@ -192,7 +192,7 @@ public class PlayerListener implements Listener {
         PVP.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     private void onPlayerBreakBlock(BlockBreakEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
@@ -202,7 +202,7 @@ public class PlayerListener implements Listener {
         BREAK.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     private void onHangingBreak(HangingBreakByEntityEvent event) {
 
         if (!(event.getRemover() instanceof Player))
@@ -215,7 +215,7 @@ public class PlayerListener implements Listener {
         BREAK.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     private void onPlaceBlock(BlockPlaceEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
@@ -225,7 +225,7 @@ public class PlayerListener implements Listener {
         PLACE.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     private void onPlaceMultiBlock(BlockMultiPlaceEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
@@ -235,7 +235,7 @@ public class PlayerListener implements Listener {
         PLACE.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     private void onHangingPlaced(HangingPlaceEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
@@ -245,7 +245,7 @@ public class PlayerListener implements Listener {
         PLACE.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     private void onIgnite(BlockIgniteEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
@@ -258,7 +258,7 @@ public class PlayerListener implements Listener {
         IGNITE.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     private void onUseMachine(PlayerInteractEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
@@ -275,7 +275,7 @@ public class PlayerListener implements Listener {
         USE_MACHINES.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     private void onThrowSwitch(PlayerInteractEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
@@ -292,7 +292,7 @@ public class PlayerListener implements Listener {
         THROW_SWITCH.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     private void onOpenDoor(PlayerInteractEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
@@ -309,7 +309,7 @@ public class PlayerListener implements Listener {
         OPEN_DOOR.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     private void onOpenGate(PlayerInteractEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
@@ -326,7 +326,7 @@ public class PlayerListener implements Listener {
         OPEN_GATE.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     private void onOpenTrapDoor(PlayerInteractEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
@@ -343,7 +343,7 @@ public class PlayerListener implements Listener {
         OPEN_TRAPDOOR.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     private void onOpenChest(PlayerInteractEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
@@ -361,7 +361,7 @@ public class PlayerListener implements Listener {
         OPEN_CHEST.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     private void onTrampleCrops(PlayerInteractEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
@@ -378,7 +378,7 @@ public class PlayerListener implements Listener {
         TRAMPLE_CROPS.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     private void onChat(PlayerCommandPreprocessEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
