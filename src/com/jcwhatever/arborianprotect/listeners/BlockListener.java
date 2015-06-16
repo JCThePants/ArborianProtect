@@ -149,14 +149,14 @@ public class BlockListener implements Listener {
                 }
             };
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
+    @EventHandler(priority = EventPriority.LOW)
     private void onLeafDecay(LeavesDecayEvent event) {
 
         Location location = event.getBlock().getLocation(LEAF_DECAY_LOCATION);
         LEAF_DECAY.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
+    @EventHandler(priority = EventPriority.LOW)
     private void onBlockFade(BlockFadeEvent event) {
 
         Location location = event.getBlock().getLocation(BLOCK_FADE_LOCATION);
@@ -180,7 +180,7 @@ public class BlockListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
+    @EventHandler(priority = EventPriority.LOW)
     private void onBlockSpread(BlockSpreadEvent event) {
 
         Location location = event.getBlock().getLocation(BLOCK_SPREAD_LOCATION);
@@ -211,7 +211,7 @@ public class BlockListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
+    @EventHandler(priority = EventPriority.LOW)
     private void onBlockIgnite(BlockIgniteEvent event) {
 
         Location location = event.getBlock().getLocation(BLOCK_IGNITE_LOCATION);
@@ -223,7 +223,7 @@ public class BlockListener implements Listener {
         FIRE_SPREAD.processEvent(location, event);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
+    @EventHandler(priority = EventPriority.LOW)
     private void onExplosion(EntityExplodeEvent event) {
 
         List<Block> blocks = event.blockList();
@@ -237,7 +237,7 @@ public class BlockListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
+    @EventHandler(priority = EventPriority.LOW)
     private void onMobChangeBlock(EntityChangeBlockEvent event) {
 
         if (!event.getEntity().getType().isAlive())

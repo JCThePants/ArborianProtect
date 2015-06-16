@@ -46,7 +46,7 @@ import java.util.List;
  */
 public class MobSpawnListener implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
+    @EventHandler(priority = EventPriority.LOW)
     private void onCreatureSpawn(CreatureSpawnEvent event) {
 
         // check regions first
