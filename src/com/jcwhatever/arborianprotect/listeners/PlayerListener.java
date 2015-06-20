@@ -27,10 +27,11 @@ package com.jcwhatever.arborianprotect.listeners;
 import com.jcwhatever.arborianprotect.ArborianProtect;
 import com.jcwhatever.arborianprotect.IProtected;
 import com.jcwhatever.arborianprotect.filters.FilterPermission;
+import com.jcwhatever.nucleus.utils.entity.EntityUtils;
 import com.jcwhatever.nucleus.utils.materials.Materials;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
@@ -177,15 +178,16 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     private void onPvp(EntityDamageByEntityEvent event) {
 
-        if (!(event.getEntity() instanceof Player ||
-                !(event.getDamager() instanceof Player))) {
+        Entity entity = event.getEntity();
+        if (!(entity instanceof Player))
             return;
-        }
 
-        if (event.getDamager() instanceof Player &&
-                ArborianProtect.isExempt((Player)event.getDamager())) {
+        Entity damager = EntityUtils.getDamager(event.getDamager());
+        if (!(damager instanceof Player))
             return;
-        }
+
+        if (ArborianProtect.isExempt((Player)damager))
+            return;
 
         Location location = event.getEntity().getLocation(PVP_LOCATION);
 
