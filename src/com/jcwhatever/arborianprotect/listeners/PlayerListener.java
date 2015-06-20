@@ -236,6 +236,23 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOW)
+    private void onPlaceLiquid(PlayerInteractEvent event) {
+
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
+
+        Material material = event.getPlayer().getItemInHand().getType();
+
+        if (material != Material.WATER_BUCKET &&
+                material != Material.LAVA_BUCKET) {
+            return;
+        }
+
+        Location location = event.getClickedBlock().getLocation(BLOCK_PLACE_LOCATION);
+        PLACE.processEvent(location, event);
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
     private void onHangingPlaced(HangingPlaceEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
