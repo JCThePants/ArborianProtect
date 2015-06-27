@@ -44,6 +44,7 @@ public class ProtectedRegion extends Region implements IProtected {
     private MobSpawnFilter _mobSpawnFilter;
     private BlockEventFilter _blockEventFilter;
     private PlayerEventFilter _playerEventFilter;
+    private int _priority = 0;
 
     /**
      * Constructor.
@@ -60,6 +61,7 @@ public class ProtectedRegion extends Region implements IProtected {
         _mobSpawnFilter = dataNode.getSerializable("mob-spawn-filter", MobSpawnFilter.class);
         _blockEventFilter = dataNode.getSerializable("block-event-filter", BlockEventFilter.class);
         _playerEventFilter = dataNode.getSerializable("player-event-filter", PlayerEventFilter.class);
+        _priority = dataNode.getInteger("priority", _priority);
 
         if (_mobSpawnFilter == null)
             _mobSpawnFilter = new MobSpawnFilter(dataNode.getNode("mob-spawn-filter"));
@@ -84,5 +86,20 @@ public class ProtectedRegion extends Region implements IProtected {
     @Override
     public PlayerEventFilter getPlayerEventFilter() {
         return _playerEventFilter;
+    }
+
+    @Override
+    public int getPriority() {
+        return _priority;
+    }
+
+    public void setPriority(int priority) {
+        _priority = priority;
+
+        IDataNode dataNode = getDataNode();
+        assert dataNode != null;
+
+        dataNode.set("priority", priority);
+        dataNode.save();
     }
 }

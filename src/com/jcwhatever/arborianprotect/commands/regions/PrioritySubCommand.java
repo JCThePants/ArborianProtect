@@ -33,41 +33,39 @@ import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
 import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
-import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
-import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
-
 import org.bukkit.command.CommandSender;
 
-import java.util.Collection;
-
 @CommandInfo(
-        command="list",
-        staticParams = { "page=1" },
-        description="List protected regions.",
+        command="priority",
+        staticParams = { "regionName", "priority=" },
+        description="Set a regions priority in relation to other protected regions.",
 
         paramDescriptions = {
-                "page= {PAGE}",
+                "regionName= The name of the region to change priority.",
+                "priority= The priority number value. Higher numbers have higher priority."
         })
 
-public final class ListSubCommand extends AbstractProtectCommand implements IExecutableCommand {
+public final class PrioritySubCommand extends AbstractProtectCommand implements IExecutableCommand {
 
-    @Localizable static final String _PAGINATOR_TITLE =
-            "Protected Regions";
+    @Localizable static final String _NOT_FOUND =
+            "A protected region named '{0: region name}' was not found.";
+
+    @Localizable static final String _SUCCESS =
+            "Protected region named '{0: region name}' priority set to {1: priority}.";
 
     @Override
     public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
-        int page = args.getInteger("page");
+        String name = args.getString("regionName");
+        int priority = args.getInteger("priority", 0, Integer.MAX_VALUE);
 
-        Collection<ProtectedRegion> regions = ArborianProtect.getRegionManager().getAll();
+        ProtectedRegion region = ArborianProtect.getRegionManager().get(name);
+        if (region == null)
+            throw new CommandException(Lang.get(_NOT_FOUND, name));
 
-        ChatPaginator pagin = new ChatPaginator(ArborianProtect.getPlugin(), 7,
-                Lang.get(_PAGINATOR_TITLE));
+        region.setPriority(priority);
 
-        for (ProtectedRegion region : regions) {
-            pagin.add(region.getName(), region.getWorldName() + ", priority: " + region.getPriority());
-        }
-
-        pagin.show(sender, page, FormatTemplate.LIST_ITEM_DESCRIPTION);
+        tellSuccess(sender, Lang.get(_SUCCESS, name, priority));
     }
 }
+
