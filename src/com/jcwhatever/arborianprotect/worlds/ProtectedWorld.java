@@ -86,7 +86,7 @@ public class ProtectedWorld implements IProtected, IDataNodeSerializable {
 
     @Override
     public MobEventFilter getMobEventFilter() {
-        return null;
+        return _mobEventFilter;
     }
 
     @Override
