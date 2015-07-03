@@ -33,14 +33,13 @@ import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
 import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
-
 import org.bukkit.command.CommandSender;
 
 @CommandInfo(
-        command="explosion-damage",
+        command="creeper-damage",
         staticParams = { "targetName", "allow|deny|default" },
         flags = { "world" },
-        description="Set Explosion-Damage Filter for the specified target.",
+        description="Set TNT Explosion-Damage Filter for the specified target.",
 
         paramDescriptions = {
                 "targetName= The name of the target region or world. If targeting " +
@@ -50,10 +49,10 @@ import org.bukkit.command.CommandSender;
                 "world= Include this flag to specify that the target is a world."
         })
 
-public final class ExplosionDamageSubCommand extends AbstractProtectCommand implements IExecutableCommand {
+public final class CreeperDamageSubCommand extends AbstractProtectCommand implements IExecutableCommand {
 
     @Localizable static final String _SUCCESS =
-            "Explosion Damage Filter set to {0: permission} for target '{1: target}'.";
+            "Creeper Explosion Damage Filter set to {0: permission} for target '{1: target}'.";
 
     @Override
     public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
@@ -64,7 +63,7 @@ public final class ExplosionDamageSubCommand extends AbstractProtectCommand impl
 
         FilterPermission permission = args.getEnum("allow|deny|default", FilterPermission.class);
 
-        target.getBlockEventFilter().setExplosionDamage(permission);
+        target.getBlockEventFilter().setCreeperDamage(permission);
 
         tellSuccess(sender, Lang.get(_SUCCESS,
                 permission.name(), target.getName()));

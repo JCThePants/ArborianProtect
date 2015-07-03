@@ -24,8 +24,8 @@
 
 package com.jcwhatever.arborianprotect.filters;
 
-import com.jcwhatever.nucleus.storage.serialize.DeserializeException;
 import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.storage.serialize.DeserializeException;
 import com.jcwhatever.nucleus.storage.serialize.IDataNodeSerializable;
 import com.jcwhatever.nucleus.utils.PreCon;
 
@@ -45,7 +45,9 @@ public class BlockEventFilter implements IDataNodeSerializable {
     private FilterPermission _grassGrowth = FilterPermission.DEFAULT;
     private FilterPermission _myceliumGrowth = FilterPermission.DEFAULT;
     private FilterPermission _fireSpread = FilterPermission.DEFAULT;
-    private FilterPermission _explosionDamage = FilterPermission.DEFAULT;
+    private FilterPermission _tntDamage = FilterPermission.DEFAULT;
+    private FilterPermission _creeperDamage = FilterPermission.DEFAULT;
+    private FilterPermission _fireBallDamage = FilterPermission.DEFAULT;
     private FilterPermission _mobChangeBlock = FilterPermission.DEFAULT;
 
     private BlockEventFilter() {}
@@ -244,22 +246,62 @@ public class BlockEventFilter implements IDataNodeSerializable {
     }
 
     /**
-     * Get explosion block damage permission.
+     * Get TNT explosion block damage permission.
      */
-    public FilterPermission getExplosionDamage() {
-        return _explosionDamage;
+    public FilterPermission getTntDamage() {
+        return _tntDamage;
     }
 
     /**
-     * Set explosion block damage permission.
+     * Set TNT explosion block damage permission.
      *
      * @param permission  The {@link FilterPermission}.
      */
-    public void setExplosionDamage(FilterPermission permission) {
+    public void setTntDamage(FilterPermission permission) {
         PreCon.notNull(permission);
 
-        _explosionDamage = permission;
-        _dataNode.set("explosion-damage", _explosionDamage);
+        _tntDamage = permission;
+        _dataNode.set("tnt-damage", _tntDamage);
+        _dataNode.save();
+    }
+
+    /**
+     * Get creeper explosion block damage permission.
+     */
+    public FilterPermission getCreeperDamage() {
+        return _creeperDamage;
+    }
+
+    /**
+     * Set creeper explosion block damage permission.
+     *
+     * @param permission  The {@link FilterPermission}.
+     */
+    public void setCreeperDamage(FilterPermission permission) {
+        PreCon.notNull(permission);
+
+        _creeperDamage = permission;
+        _dataNode.set("creeper-damage", permission);
+        _dataNode.save();
+    }
+
+    /**
+     * Get fireball explosion block damage permission.
+     */
+    public FilterPermission getFireballDamage() {
+        return _fireBallDamage;
+    }
+
+    /**
+     * Set fireball explosion block damage permission.
+     *
+     * @param permission  The {@link FilterPermission}.
+     */
+    public void setFireballDamage(FilterPermission permission) {
+        PreCon.notNull(permission);
+
+        _fireBallDamage = permission;
+        _dataNode.set("fireball-damage", permission);
         _dataNode.save();
     }
 
@@ -294,7 +336,9 @@ public class BlockEventFilter implements IDataNodeSerializable {
         dataNode.set("grass-growth", _grassGrowth);
         dataNode.set("mycelium-growth", _myceliumGrowth);
         dataNode.set("fire-spread", _fireSpread);
-        dataNode.set("explosion-damage", _explosionDamage);
+        dataNode.set("tnt-damage", _tntDamage);
+        dataNode.set("creeper-damage", _creeperDamage);
+        dataNode.set("fireball-damage", _fireBallDamage);
         dataNode.set("mob-change-block", _mobChangeBlock);
     }
 
@@ -330,7 +374,13 @@ public class BlockEventFilter implements IDataNodeSerializable {
         _fireSpread = dataNode.getEnum("fire-spread",
                 FilterPermission.DEFAULT, FilterPermission.class);
 
-        _explosionDamage = dataNode.getEnum("explosion-damage",
+        _tntDamage = dataNode.getEnum("tnt-damage",
+                FilterPermission.DEFAULT, FilterPermission.class);
+
+        _creeperDamage = dataNode.getEnum("creeper-damage",
+                FilterPermission.DEFAULT, FilterPermission.class);
+
+        _fireBallDamage = dataNode.getEnum("fireball-damage",
                 FilterPermission.DEFAULT, FilterPermission.class);
 
         _mobChangeBlock = dataNode.getEnum("mob-change-block",

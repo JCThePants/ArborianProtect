@@ -60,7 +60,9 @@ public class InfoPaginFiller {
     @Localizable static final String _THROW_SWITCH = "Throw Switch";
     @Localizable static final String _TRAMPLE_CROPS = "Trample Crops";
     @Localizable static final String _USE_MACHINES = "Use Machines";
-    @Localizable static final String _EXPLOSION_DAMAGE = "Explosion Damage";
+    @Localizable static final String _TNT_DAMAGE = "TNT Explosion Damage";
+    @Localizable static final String _CREEPER_DAMAGE = "Creeper Explosion Damage";
+    @Localizable static final String _FIREBALL_DAMAGE = "Fireball Explosion Damage";
     @Localizable static final String _FIRE_SPREAD = "Fire Spread";
     @Localizable static final String _GRASS_GROWTH = "Grass Growth";
     @Localizable static final String _ICE_MELT = "Ice Melt";
@@ -100,7 +102,9 @@ public class InfoPaginFiller {
 
         BlockEventFilter filter = target.getBlockEventFilter();
 
-        addPagin(pagin, _EXPLOSION_DAMAGE, filter.getExplosionDamage());
+        addPagin(pagin, _TNT_DAMAGE, filter.getTntDamage());
+        addPagin(pagin, _CREEPER_DAMAGE, filter.getCreeperDamage());
+        addPagin(pagin, _FIREBALL_DAMAGE, filter.getFireballDamage());
         addPagin(pagin, _FIRE_SPREAD, filter.getFireSpread());
         addPagin(pagin, _GRASS_GROWTH, filter.getGrassGrowth());
         addPagin(pagin, _ICE_MELT, filter.getIceMelt());

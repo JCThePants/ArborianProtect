@@ -30,6 +30,7 @@ import com.jcwhatever.arborianprotect.filters.FilterPermission;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -128,11 +129,37 @@ public class BlockListener implements Listener {
                 }
             };
 
-    private static final EventProcessor<EntityExplodeEvent> EXPLOSION_DAMAGE =
+    private static final EventProcessor<EntityExplodeEvent> TNT_DAMAGE =
             new EventProcessor<EntityExplodeEvent>() {
                 @Override
                 public FilterPermission getPermission(IProtected target) {
-                    return target.getBlockEventFilter().getExplosionDamage();
+                    return target.getBlockEventFilter().getTntDamage();
+                }
+                @Override
+                protected void setCancelled(EntityExplodeEvent event, boolean isCancelled) {
+                    if (isCancelled)
+                        event.blockList().clear();
+                }
+            };
+
+    private static final EventProcessor<EntityExplodeEvent> CREEPER_DAMAGE =
+            new EventProcessor<EntityExplodeEvent>() {
+                @Override
+                public FilterPermission getPermission(IProtected target) {
+                    return target.getBlockEventFilter().getCreeperDamage();
+                }
+                @Override
+                protected void setCancelled(EntityExplodeEvent event, boolean isCancelled) {
+                    if (isCancelled)
+                        event.blockList().clear();
+                }
+            };
+
+    private static final EventProcessor<EntityExplodeEvent> FIREBALL_DAMAGE =
+            new EventProcessor<EntityExplodeEvent>() {
+                @Override
+                public FilterPermission getPermission(IProtected target) {
+                    return target.getBlockEventFilter().getFireballDamage();
                 }
                 @Override
                 protected void setCancelled(EntityExplodeEvent event, boolean isCancelled) {
@@ -226,14 +253,37 @@ public class BlockListener implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     private void onExplosion(EntityExplodeEvent event) {
 
+        EntityType type = event.getEntityType();
+
+        if (type != EntityType.PRIMED_TNT &&
+                type != EntityType.CREEPER &&
+                type != EntityType.FIREBALL &&
+                type != EntityType.SMALL_FIREBALL) {
+            return;
+        }
+
         List<Block> blocks = event.blockList();
 
         for (Block block : blocks) {
 
             Location location = block.getLocation(EXPLOSION_LOCATION);
 
-            if (EXPLOSION_DAMAGE.processEvent(location, event))
-                return;
+            switch (type) {
+                case PRIMED_TNT:
+                    if (TNT_DAMAGE.processEvent(location, event))
+                        return;
+                    break;
+                case CREEPER:
+                    if (CREEPER_DAMAGE.processEvent(location, event))
+                        return;
+                    break;
+                case FIREBALL:
+                    // fallthrough
+                case SMALL_FIREBALL:
+                    if (FIREBALL_DAMAGE.processEvent(location, event))
+                        return;
+                    break;
+            }
         }
     }
 

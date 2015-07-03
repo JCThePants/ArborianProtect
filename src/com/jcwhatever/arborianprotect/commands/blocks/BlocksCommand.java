@@ -36,7 +36,9 @@ public final class BlocksCommand extends AbstractCommand {
     public BlocksCommand() {
         super();
 
-        registerCommand(ExplosionDamageSubCommand.class);
+        registerCommand(TntDamageSubCommand.class);
+        registerCommand(CreeperDamageSubCommand.class);
+        registerCommand(FireballDamageSubCommand.class);
         registerCommand(MobChangeBlockSubCommand.class);
         registerCommand(FireSpreadSubCommand.class);
         registerCommand(GrassGrowthSubCommand.class);
