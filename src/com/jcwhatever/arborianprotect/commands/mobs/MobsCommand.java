@@ -22,36 +22,20 @@
  * THE SOFTWARE.
  */
 
-package com.jcwhatever.arborianprotect;
+package com.jcwhatever.arborianprotect.commands.mobs;
 
-import com.jcwhatever.arborianprotect.filters.BlockEventFilter;
-import com.jcwhatever.arborianprotect.filters.MobEventFilter;
-import com.jcwhatever.arborianprotect.filters.MobSpawnFilter;
-import com.jcwhatever.arborianprotect.filters.PlayerEventFilter;
-import com.jcwhatever.nucleus.mixins.INamedInsensitive;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 
-/**
- * Represents a protected target such as a region or world.
- */
-public interface IProtected extends INamedInsensitive {
+@CommandInfo(
+        command={ "mobs", "mob" },
+        description="Manage mob events.")
 
-    /**
-     * Get the creature event filter settings.
-     */
-    MobEventFilter getMobEventFilter();
+public final class MobsCommand extends AbstractCommand {
 
-    /**
-     * Get the creature spawn filter settings.
-     */
-    MobSpawnFilter getMobSpawnFilter();
+    public MobsCommand() {
+        super();
 
-    /**
-     * Get the block event filter settings.
-     */
-    BlockEventFilter getBlockEventFilter();
-
-    /**
-     * Get the player event filter settings.
-     */
-    PlayerEventFilter getPlayerEventFilter();
+        registerCommand(TrampleCropsSubCommand.class);
+    }
 }

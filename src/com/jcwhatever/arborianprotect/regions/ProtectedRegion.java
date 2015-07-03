@@ -26,6 +26,7 @@ package com.jcwhatever.arborianprotect.regions;
 
 import com.jcwhatever.arborianprotect.IProtected;
 import com.jcwhatever.arborianprotect.filters.BlockEventFilter;
+import com.jcwhatever.arborianprotect.filters.MobEventFilter;
 import com.jcwhatever.arborianprotect.filters.MobSpawnFilter;
 import com.jcwhatever.arborianprotect.filters.PlayerEventFilter;
 import com.jcwhatever.nucleus.regions.Region;
@@ -41,6 +42,7 @@ import javax.annotation.Nonnull;
  */
 public class ProtectedRegion extends Region implements IProtected {
 
+    private MobEventFilter _mobEventFilter;
     private MobSpawnFilter _mobSpawnFilter;
     private BlockEventFilter _blockEventFilter;
     private PlayerEventFilter _playerEventFilter;
@@ -58,10 +60,14 @@ public class ProtectedRegion extends Region implements IProtected {
 
         PreCon.notNull(dataNode);
 
+        _mobEventFilter = dataNode.getSerializable("mob-event-filter", MobEventFilter.class);
         _mobSpawnFilter = dataNode.getSerializable("mob-spawn-filter", MobSpawnFilter.class);
         _blockEventFilter = dataNode.getSerializable("block-event-filter", BlockEventFilter.class);
         _playerEventFilter = dataNode.getSerializable("player-event-filter", PlayerEventFilter.class);
         _priority = dataNode.getInteger("priority", _priority);
+
+        if (_mobEventFilter == null)
+            _mobEventFilter = new MobEventFilter(dataNode.getNode("mob-event-filter"));
 
         if (_mobSpawnFilter == null)
             _mobSpawnFilter = new MobSpawnFilter(dataNode.getNode("mob-spawn-filter"));
@@ -71,6 +77,11 @@ public class ProtectedRegion extends Region implements IProtected {
 
         if (_playerEventFilter == null)
             _playerEventFilter = new PlayerEventFilter(dataNode.getNode("player-event-filter"));
+    }
+
+    @Override
+    public MobEventFilter getMobEventFilter() {
+        return _mobEventFilter;
     }
 
     @Override

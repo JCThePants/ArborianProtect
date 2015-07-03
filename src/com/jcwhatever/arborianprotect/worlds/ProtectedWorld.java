@@ -26,6 +26,7 @@ package com.jcwhatever.arborianprotect.worlds;
 
 import com.jcwhatever.arborianprotect.IProtected;
 import com.jcwhatever.arborianprotect.filters.BlockEventFilter;
+import com.jcwhatever.arborianprotect.filters.MobEventFilter;
 import com.jcwhatever.arborianprotect.filters.MobSpawnFilter;
 import com.jcwhatever.arborianprotect.filters.PlayerEventFilter;
 import com.jcwhatever.nucleus.storage.serialize.DeserializeException;
@@ -40,7 +41,8 @@ public class ProtectedWorld implements IProtected, IDataNodeSerializable {
 
     private String _name;
     private String _searchName;
-    private MobSpawnFilter _creatureSpawnFilter;
+    private MobEventFilter _mobEventFilter;
+    private MobSpawnFilter _mobSpawnFilter;
     private BlockEventFilter _blockEventFilter;
     private PlayerEventFilter _playerEventFilter;
 
@@ -58,7 +60,11 @@ public class ProtectedWorld implements IProtected, IDataNodeSerializable {
 
         _name = worldName;
         _searchName = worldName.toLowerCase();
-        _creatureSpawnFilter =
+
+        _mobEventFilter =
+                new MobEventFilter(dataNode.getNode("mob-event-filter"));
+
+        _mobSpawnFilter =
                 new MobSpawnFilter(dataNode.getNode("mob-spawn-filter"));
 
         _blockEventFilter =
@@ -79,8 +85,13 @@ public class ProtectedWorld implements IProtected, IDataNodeSerializable {
     }
 
     @Override
+    public MobEventFilter getMobEventFilter() {
+        return null;
+    }
+
+    @Override
     public MobSpawnFilter getMobSpawnFilter() {
-        return _creatureSpawnFilter;
+        return _mobSpawnFilter;
     }
 
     @Override
@@ -96,7 +107,8 @@ public class ProtectedWorld implements IProtected, IDataNodeSerializable {
     @Override
     public void serialize(IDataNode dataNode) {
         dataNode.set("name", _name);
-        dataNode.set("mob-spawn-filter", _creatureSpawnFilter);
+        dataNode.set("mob-event-filter", _mobEventFilter);
+        dataNode.set("mob-spawn-filter", _mobSpawnFilter);
         dataNode.set("block-event-filter", _blockEventFilter);
         dataNode.set("player-event-filter", _playerEventFilter);
     }
@@ -110,11 +122,17 @@ public class ProtectedWorld implements IProtected, IDataNodeSerializable {
 
         _searchName = _name.toLowerCase();
 
-        _creatureSpawnFilter =
+        _mobEventFilter =
+                dataNode.getSerializable("mob-event-filter", MobEventFilter.class);
+
+        if (_mobEventFilter == null)
+            _mobEventFilter = new MobEventFilter(dataNode.getNode("mob-event-filter"));
+
+        _mobSpawnFilter =
                 dataNode.getSerializable("mob-spawn-filter", MobSpawnFilter.class);
 
-        if (_creatureSpawnFilter == null)
-            _creatureSpawnFilter = new MobSpawnFilter(dataNode.getNode("mob-spawn-filter"));
+        if (_mobSpawnFilter == null)
+            _mobSpawnFilter = new MobSpawnFilter(dataNode.getNode("mob-spawn-filter"));
 
         _blockEventFilter =
                 dataNode.getSerializable("block-event-filter", BlockEventFilter.class);

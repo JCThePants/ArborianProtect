@@ -27,10 +27,12 @@ package com.jcwhatever.arborianprotect;
 import com.jcwhatever.arborianprotect.commands.ExemptCommand;
 import com.jcwhatever.arborianprotect.commands.InfoCommand;
 import com.jcwhatever.arborianprotect.commands.blocks.BlocksCommand;
+import com.jcwhatever.arborianprotect.commands.mobs.MobsCommand;
 import com.jcwhatever.arborianprotect.commands.mobspawns.MobSpawnsCommand;
 import com.jcwhatever.arborianprotect.commands.players.PlayersCommand;
 import com.jcwhatever.arborianprotect.commands.regions.RegionsCommand;
 import com.jcwhatever.arborianprotect.listeners.BlockListener;
+import com.jcwhatever.arborianprotect.listeners.MobListener;
 import com.jcwhatever.arborianprotect.listeners.MobSpawnListener;
 import com.jcwhatever.arborianprotect.listeners.PlayerListener;
 import com.jcwhatever.arborianprotect.regions.ProtectedRegionManager;
@@ -42,11 +44,10 @@ import com.jcwhatever.nucleus.storage.DataPath;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.text.TextColor;
-
 import org.bukkit.entity.Player;
 
-import java.util.Set;
 import javax.annotation.Nullable;
+import java.util.Set;
 
 /**
  * A lightweight world and region protection plugin.
@@ -146,6 +147,7 @@ public class ArborianProtect extends NucleusPlugin {
         // are running when server first starts
         registerEventListeners(
                 new BlockListener(),
+                new MobListener(),
                 new MobSpawnListener(),
                 new PlayerListener());
     }
@@ -157,6 +159,7 @@ public class ArborianProtect extends NucleusPlugin {
 
         registerCommand(BlocksCommand.class);
         registerCommand(ExemptCommand.class);
+        registerCommand(MobsCommand.class);
         registerCommand(MobSpawnsCommand.class);
         registerCommand(PlayersCommand.class);
         registerCommand(RegionsCommand.class);
