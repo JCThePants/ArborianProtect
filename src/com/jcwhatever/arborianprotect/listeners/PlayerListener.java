@@ -32,6 +32,7 @@ import com.jcwhatever.nucleus.utils.materials.Materials;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
@@ -44,6 +45,7 @@ import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.block.BlockMultiPlaceEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -68,6 +70,7 @@ public class PlayerListener implements Listener {
     private static final Location CHEST_LOCATION = new Location(null, 0, 0, 0);
     private static final Location CHAT_LOCATION = new Location(null, 0, 0, 0);
     private static final Location CROPS_LOCATION = new Location(null, 0, 0, 0);
+    private static final Location HUNGER_LOCATION = new Location(null, 0, 0, 0);
 
     private static final EventProcessor<EntityDamageByEntityEvent> PVP =
             new EventProcessor<EntityDamageByEntityEvent>() {
@@ -173,7 +176,13 @@ public class PlayerListener implements Listener {
                 }
             };
 
-
+    private static final EventProcessor<Cancellable> HUNGER =
+            new EventProcessor<Cancellable>() {
+                @Override
+                public FilterPermission getPermission(IProtected target) {
+                    return target.getPlayerEventFilter().getHunger();
+                }
+            };
 
     @EventHandler(priority = EventPriority.LOW)
     private void onPvp(EntityDamageByEntityEvent event) {
@@ -409,5 +418,21 @@ public class PlayerListener implements Listener {
 
         Location location = event.getPlayer().getLocation(CHAT_LOCATION);
         CHAT.processEvent(location, event);
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    private void onHunger(FoodLevelChangeEvent event) {
+
+        HumanEntity human = event.getEntity();
+        if (!(human instanceof Player))
+            return;
+
+        Player player = (Player)human;
+
+        if (ArborianProtect.isExempt(player))
+            return;
+
+        Location location = player.getLocation(HUNGER_LOCATION);
+        HUNGER.processEvent(location, event);
     }
 }

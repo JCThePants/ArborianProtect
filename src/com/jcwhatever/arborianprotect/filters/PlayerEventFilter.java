@@ -48,6 +48,7 @@ public class PlayerEventFilter implements IDataNodeSerializable {
     private FilterPermission _openTrapDoor = FilterPermission.DEFAULT;//
     private FilterPermission _chat = FilterPermission.DEFAULT;
     private FilterPermission _trampleCrops = FilterPermission.DEFAULT;
+    private FilterPermission _hunger = FilterPermission.DEFAULT;
     // block place private FilterPermission _poorWaterBucket = FilterPermission.DEFAULT;
     // block place private FilterPermission _poorLavaBucket = FilterPermission.DEFAULT;
 
@@ -304,6 +305,17 @@ public class PlayerEventFilter implements IDataNodeSerializable {
         _dataNode.save();
     }
 
+    public FilterPermission getHunger() {
+        return _hunger;
+    }
+
+    public void setHunger(FilterPermission permission) {
+        PreCon.notNull(permission);
+
+        _dataNode.set("hunger", _hunger = permission);
+        _dataNode.save();
+    }
+
     @Override
     public void serialize(IDataNode dataNode) {
         dataNode.set("pvp", _pvp);
@@ -318,6 +330,7 @@ public class PlayerEventFilter implements IDataNodeSerializable {
         dataNode.set("open-trap-door", _openTrapDoor);
         dataNode.set("chat", _chat);
         dataNode.set("trample-crops", _trampleCrops);
+        dataNode.set("hunger", _hunger);
     }
 
     @Override
@@ -359,6 +372,9 @@ public class PlayerEventFilter implements IDataNodeSerializable {
                 FilterPermission.DEFAULT, FilterPermission.class);
 
         _trampleCrops = dataNode.getEnum("trample-crops",
+                FilterPermission.DEFAULT, FilterPermission.class);
+
+        _hunger = dataNode.getEnum("hunger",
                 FilterPermission.DEFAULT, FilterPermission.class);
     }
 }

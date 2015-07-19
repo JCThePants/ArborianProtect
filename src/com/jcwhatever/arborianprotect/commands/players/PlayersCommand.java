@@ -38,6 +38,7 @@ public final class PlayersCommand extends AbstractCommand {
 
         registerCommand(BreakSubCommand.class);
         registerCommand(ChatSubCommand.class);
+        registerCommand(HungerSubCommand.class);
         registerCommand(InfoSubCommand.class);
         registerCommand(IgniteSubCommand.class);
         registerCommand(OpenChestSubCommand.class);
