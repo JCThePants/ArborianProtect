@@ -27,6 +27,7 @@ package com.jcwhatever.arborianprotect.listeners;
 import com.jcwhatever.arborianprotect.ArborianProtect;
 import com.jcwhatever.arborianprotect.IProtected;
 import com.jcwhatever.arborianprotect.filters.FilterPermission;
+import com.jcwhatever.nucleus.events.block.PlayerTransformBlockEvent;
 import com.jcwhatever.nucleus.utils.entity.EntityUtils;
 import com.jcwhatever.nucleus.utils.materials.Materials;
 import org.bukkit.Location;
@@ -59,6 +60,7 @@ public class PlayerListener implements Listener {
     private static final Location PVP_LOCATION = new Location(null, 0, 0, 0);
     private static final Location BLOCK_BREAK_LOCATION = new Location(null, 0, 0, 0);
     private static final Location BLOCK_PLACE_LOCATION = new Location(null, 0, 0, 0);
+    private static final Location BLOCK_TRANSFORM_LOCATION = new Location(null, 0, 0, 0);
     private static final Location HANGING_BREAK_LOCATION = new Location(null, 0, 0, 0);
     private static final Location HANGING_PLACE_LOCATION = new Location(null, 0, 0, 0);
     private static final Location IGNITED_BLOCK_LOCATION = new Location(null, 0, 0, 0);
@@ -100,6 +102,15 @@ public class PlayerListener implements Listener {
             new EventProcessor<Cancellable>() {
                 @Override
                 public FilterPermission getPermission(IProtected target) {
+                    return target.getPlayerEventFilter().getPlace();
+                }
+            };
+
+    private static final EventProcessor<Cancellable> TRANSFORM =
+            new EventProcessor<Cancellable>() {
+                @Override
+                public FilterPermission getPermission(IProtected target) {
+                    // use place filter to handle transform event
                     return target.getPlayerEventFilter().getPlace();
                 }
             };
@@ -237,6 +248,16 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOW)
+    private void onTransformBlock(PlayerTransformBlockEvent event) {
+
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
+
+        Location location = event.getBlock().getLocation(BLOCK_TRANSFORM_LOCATION);
+        TRANSFORM.processEvent(location, event);
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
     private void onPlaceMultiBlock(BlockMultiPlaceEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
@@ -250,6 +271,9 @@ public class PlayerListener implements Listener {
     private void onPlaceLiquid(PlayerInteractEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
+
+        if (!event.hasBlock())
             return;
 
         Material material = event.getPlayer().getItemInHand().getType();
