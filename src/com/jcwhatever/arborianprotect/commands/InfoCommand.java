@@ -27,6 +27,7 @@ package com.jcwhatever.arborianprotect.commands;
 import com.jcwhatever.arborianprotect.ArborianProtect;
 import com.jcwhatever.arborianprotect.IProtected;
 import com.jcwhatever.arborianprotect.Lang;
+import com.jcwhatever.arborianprotect.regions.ProtectedRegion;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
 import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
@@ -75,6 +76,11 @@ public final class InfoCommand extends AbstractProtectCommand implements IExecut
 
         ChatPaginator pagin = new ChatPaginator(ArborianProtect.getPlugin(),
                 7, Lang.get(_PAGINATOR_TITLE, target.getName()));
+
+        if (target instanceof ProtectedRegion) {
+            ProtectedRegion region = (ProtectedRegion)target;
+            pagin.add("Priority", region.getPriority());
+        }
 
         pagin.addFormatted(FormatTemplate.SUB_HEADER, Lang.get(_HEADER_BLOCKS));
         InfoPaginFiller.blockFilter(pagin, target);

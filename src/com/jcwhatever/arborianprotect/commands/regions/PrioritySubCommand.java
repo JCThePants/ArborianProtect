@@ -50,6 +50,9 @@ public final class PrioritySubCommand extends AbstractProtectCommand implements 
     @Localizable static final String _NOT_FOUND =
             "A protected region named '{0: region name}' was not found.";
 
+    @Localizable static final String _INFO =
+            "Priority for region named '{0: region name}' is {1: priority}.";
+
     @Localizable static final String _SUCCESS =
             "Protected region named '{0: region name}' priority set to {1: priority}.";
 
@@ -57,11 +60,18 @@ public final class PrioritySubCommand extends AbstractProtectCommand implements 
     public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         String name = args.getString("regionName");
-        int priority = args.getInteger("priority", 0, Integer.MAX_VALUE);
 
         ProtectedRegion region = ArborianProtect.getRegionManager().get(name);
         if (region == null)
             throw new CommandException(Lang.get(_NOT_FOUND, name));
+
+        if (args.isDefaultValue("priority")) {
+
+            tell(sender, Lang.get(_INFO, region.getName(), region.getPriority()));
+            return;
+        }
+
+        int priority = args.getInteger("priority", 0, Integer.MAX_VALUE);
 
         region.setPriority(priority);
 
