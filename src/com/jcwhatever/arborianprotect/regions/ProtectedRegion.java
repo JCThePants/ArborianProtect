@@ -25,14 +25,15 @@
 package com.jcwhatever.arborianprotect.regions;
 
 import com.jcwhatever.arborianprotect.IProtected;
+import com.jcwhatever.arborianprotect.Protected;
 import com.jcwhatever.arborianprotect.filters.BlockEventFilter;
 import com.jcwhatever.arborianprotect.filters.MobEventFilter;
 import com.jcwhatever.arborianprotect.filters.MobSpawnFilter;
 import com.jcwhatever.arborianprotect.filters.PlayerEventFilter;
 import com.jcwhatever.nucleus.regions.Region;
 import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.storage.serialize.DeserializeException;
 import com.jcwhatever.nucleus.utils.PreCon;
-
 import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nonnull;
@@ -42,10 +43,7 @@ import javax.annotation.Nonnull;
  */
 public class ProtectedRegion extends Region implements IProtected {
 
-    private MobEventFilter _mobEventFilter;
-    private MobSpawnFilter _mobSpawnFilter;
-    private BlockEventFilter _blockEventFilter;
-    private PlayerEventFilter _playerEventFilter;
+    private final Protected _target;
 
     /**
      * Constructor.
@@ -59,46 +57,46 @@ public class ProtectedRegion extends Region implements IProtected {
 
         PreCon.notNull(dataNode);
 
-        _mobEventFilter = dataNode.getSerializable("mob-event-filter", MobEventFilter.class);
-        _mobSpawnFilter = dataNode.getSerializable("mob-spawn-filter", MobSpawnFilter.class);
-        _blockEventFilter = dataNode.getSerializable("block-event-filter", BlockEventFilter.class);
-        _playerEventFilter = dataNode.getSerializable("player-event-filter", PlayerEventFilter.class);
-
-        if (_mobEventFilter == null)
-            _mobEventFilter = new MobEventFilter(dataNode.getNode("mob-event-filter"));
-
-        if (_mobSpawnFilter == null)
-            _mobSpawnFilter = new MobSpawnFilter(dataNode.getNode("mob-spawn-filter"));
-
-        if (_blockEventFilter == null)
-            _blockEventFilter = new BlockEventFilter(dataNode.getNode("block-event-filter"));
-
-        if (_playerEventFilter == null)
-            _playerEventFilter = new PlayerEventFilter(dataNode.getNode("player-event-filter"));
+        _target = new Protected(name, dataNode);
     }
 
     @Override
     public MobEventFilter getMobEventFilter() {
-        return _mobEventFilter;
+        return _target.getMobEventFilter();
     }
 
     @Override
     public MobSpawnFilter getMobSpawnFilter() {
-        return _mobSpawnFilter;
+        return _target.getMobSpawnFilter();
     }
 
     @Override
     public BlockEventFilter getBlockEventFilter() {
-        return _blockEventFilter;
+        return _target.getBlockEventFilter();
     }
 
     @Override
     public PlayerEventFilter getPlayerEventFilter() {
-        return _playerEventFilter;
+        return _target.getPlayerEventFilter();
+    }
+
+    @Override
+    public void importSettings(IDataNode dataNode) {
+        _target.importSettings(dataNode);
     }
 
     @Override
     public void setPriority(int priority) {
         super.setPriority(priority);
+    }
+
+    @Override
+    public void serialize(IDataNode dataNode) {
+        _target.serialize(dataNode);
+    }
+
+    @Override
+    public void deserialize(IDataNode dataNode) throws DeserializeException {
+        _target.deserialize(dataNode);
     }
 }

@@ -29,11 +29,13 @@ import com.jcwhatever.arborianprotect.filters.MobEventFilter;
 import com.jcwhatever.arborianprotect.filters.MobSpawnFilter;
 import com.jcwhatever.arborianprotect.filters.PlayerEventFilter;
 import com.jcwhatever.nucleus.mixins.INamedInsensitive;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.storage.serialize.IDataNodeSerializable;
 
 /**
  * Represents a protected target such as a region or world.
  */
-public interface IProtected extends INamedInsensitive {
+public interface IProtected extends INamedInsensitive, IDataNodeSerializable {
 
     /**
      * Get the creature event filter settings.
@@ -54,4 +56,11 @@ public interface IProtected extends INamedInsensitive {
      * Get the player event filter settings.
      */
     PlayerEventFilter getPlayerEventFilter();
+
+    /**
+     * Import settings from the specified data node.
+     *
+     * @param dataNode  The data node.
+     */
+    void importSettings(IDataNode dataNode);
 }

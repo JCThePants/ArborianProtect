@@ -24,28 +24,17 @@
 
 package com.jcwhatever.arborianprotect.worlds;
 
-import com.jcwhatever.arborianprotect.IProtected;
-import com.jcwhatever.arborianprotect.filters.BlockEventFilter;
-import com.jcwhatever.arborianprotect.filters.MobEventFilter;
-import com.jcwhatever.arborianprotect.filters.MobSpawnFilter;
-import com.jcwhatever.arborianprotect.filters.PlayerEventFilter;
-import com.jcwhatever.nucleus.storage.serialize.DeserializeException;
+import com.jcwhatever.arborianprotect.Protected;
 import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.nucleus.storage.serialize.IDataNodeSerializable;
-import com.jcwhatever.nucleus.utils.PreCon;
 
 /**
  * Represents a world and its event filters.
  */
-public class ProtectedWorld implements IProtected, IDataNodeSerializable {
+public class ProtectedWorld extends Protected {
 
-    private String _name;
-    private String _searchName;
-    private MobEventFilter _mobEventFilter;
-    private MobSpawnFilter _mobSpawnFilter;
-    private BlockEventFilter _blockEventFilter;
-    private PlayerEventFilter _playerEventFilter;
-
+    /**
+     * Constructor for serialization.
+     */
     private ProtectedWorld() {}
 
     /**
@@ -55,95 +44,7 @@ public class ProtectedWorld implements IProtected, IDataNodeSerializable {
      * @param dataNode   The worlds data node.
      */
     public ProtectedWorld(String worldName, IDataNode dataNode) {
-        PreCon.notNull(worldName);
-        PreCon.notNull(dataNode);
-
-        _name = worldName;
-        _searchName = worldName.toLowerCase();
-
-        _mobEventFilter =
-                new MobEventFilter(dataNode.getNode("mob-event-filter"));
-
-        _mobSpawnFilter =
-                new MobSpawnFilter(dataNode.getNode("mob-spawn-filter"));
-
-        _blockEventFilter =
-                new BlockEventFilter(dataNode.getNode("block-event-filter"));
-
-        _playerEventFilter =
-                new PlayerEventFilter(dataNode.getNode("player-event-filter"));
+        super(worldName, dataNode);
     }
 
-    @Override
-    public String getName() {
-        return _name;
-    }
-
-    @Override
-    public String getSearchName() {
-        return _searchName;
-    }
-
-    @Override
-    public MobEventFilter getMobEventFilter() {
-        return _mobEventFilter;
-    }
-
-    @Override
-    public MobSpawnFilter getMobSpawnFilter() {
-        return _mobSpawnFilter;
-    }
-
-    @Override
-    public BlockEventFilter getBlockEventFilter() {
-        return _blockEventFilter;
-    }
-
-    @Override
-    public PlayerEventFilter getPlayerEventFilter() {
-        return _playerEventFilter;
-    }
-
-    @Override
-    public void serialize(IDataNode dataNode) {
-        dataNode.set("name", _name);
-        dataNode.set("mob-event-filter", _mobEventFilter);
-        dataNode.set("mob-spawn-filter", _mobSpawnFilter);
-        dataNode.set("block-event-filter", _blockEventFilter);
-        dataNode.set("player-event-filter", _playerEventFilter);
-    }
-
-    @Override
-    public void deserialize(IDataNode dataNode) throws DeserializeException {
-
-        _name = dataNode.getString("name");
-        if (_name == null || _name.isEmpty())
-            throw new DeserializeException("name value not found");
-
-        _searchName = _name.toLowerCase();
-
-        _mobEventFilter =
-                dataNode.getSerializable("mob-event-filter", MobEventFilter.class);
-
-        if (_mobEventFilter == null)
-            _mobEventFilter = new MobEventFilter(dataNode.getNode("mob-event-filter"));
-
-        _mobSpawnFilter =
-                dataNode.getSerializable("mob-spawn-filter", MobSpawnFilter.class);
-
-        if (_mobSpawnFilter == null)
-            _mobSpawnFilter = new MobSpawnFilter(dataNode.getNode("mob-spawn-filter"));
-
-        _blockEventFilter =
-                dataNode.getSerializable("block-event-filter", BlockEventFilter.class);
-
-        if (_blockEventFilter == null)
-            _blockEventFilter = new BlockEventFilter(dataNode.getNode("block-event-filter"));
-
-        _playerEventFilter =
-                dataNode.getSerializable("player-event-filter", PlayerEventFilter.class);
-
-        if (_playerEventFilter == null)
-            _playerEventFilter = new PlayerEventFilter(dataNode.getNode("player-event-filter"));
-    }
 }

@@ -24,8 +24,12 @@
 
 package com.jcwhatever.arborianprotect;
 
+import com.jcwhatever.arborianprotect.commands.BuildCommand;
 import com.jcwhatever.arborianprotect.commands.ExemptCommand;
+import com.jcwhatever.arborianprotect.commands.ExportCommand;
+import com.jcwhatever.arborianprotect.commands.ImportCommand;
 import com.jcwhatever.arborianprotect.commands.InfoCommand;
+import com.jcwhatever.arborianprotect.commands.StasisCommand;
 import com.jcwhatever.arborianprotect.commands.blocks.BlocksCommand;
 import com.jcwhatever.arborianprotect.commands.mobs.MobsCommand;
 import com.jcwhatever.arborianprotect.commands.mobspawns.MobSpawnsCommand;
@@ -158,12 +162,16 @@ public class ArborianProtect extends NucleusPlugin {
         _exemptPlayers = new PlayerSet(this);
 
         registerCommand(BlocksCommand.class);
+        registerCommand(BuildCommand.class);
         registerCommand(ExemptCommand.class);
+        registerCommand(ImportCommand.class);
+        registerCommand(ExportCommand.class);
         registerCommand(MobsCommand.class);
         registerCommand(MobSpawnsCommand.class);
         registerCommand(PlayersCommand.class);
         registerCommand(RegionsCommand.class);
         registerCommand(InfoCommand.class);
+        registerCommand(StasisCommand.class);
     }
 
     @Override
