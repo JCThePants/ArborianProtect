@@ -72,8 +72,6 @@ public class ProtectedRegionManager extends NamedInsensitiveDataManager<Protecte
 
     @Override
     protected void save(ProtectedRegion item, IDataNode itemNode) {
-        itemNode.set("block-event-filter", item.getBlockEventFilter());
-        itemNode.set("player-event-filter", item.getPlayerEventFilter());
-        itemNode.set("mob-spawn-filter", item.getMobSpawnFilter());
+        // do nothing
     }
 }
