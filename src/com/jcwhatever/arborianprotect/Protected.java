@@ -144,12 +144,8 @@ public class Protected implements IProtected {
     @Override
     public void deserialize(IDataNode dataNode) throws DeserializeException {
 
-        _name = dataNode.getString("name");
-        if (_name == null || _name.isEmpty())
-            throw new DeserializeException("name value not found");
-
+        _name = dataNode.getName();
         _searchName = _name.toLowerCase();
-
         importSettings(dataNode);
     }
 }

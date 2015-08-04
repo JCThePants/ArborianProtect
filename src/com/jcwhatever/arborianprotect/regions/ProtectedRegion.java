@@ -57,7 +57,7 @@ public class ProtectedRegion extends Region implements IProtected {
 
         PreCon.notNull(dataNode);
 
-        _target = new Protected(name, dataNode);
+        _target = dataNode.getSerializable("", Protected.class);
     }
 
     @Override
