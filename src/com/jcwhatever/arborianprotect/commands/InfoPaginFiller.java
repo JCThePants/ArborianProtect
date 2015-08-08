@@ -53,6 +53,7 @@ public class InfoPaginFiller {
     @Localizable static final String _CHAT = "Chat";
     @Localizable static final String _IGNITE = "Ignite";
     @Localizable static final String _PVP = "PVP";
+    @Localizable static final String _HUNGER = "Hunger";
     @Localizable static final String _OPEN_CHEST = "Open Chest";
     @Localizable static final String _OPEN_DOOR = "Open Door";
     @Localizable static final String _OPEN_GATE = "Open Gate";
@@ -96,6 +97,7 @@ public class InfoPaginFiller {
         addPagin(pagin, _THROW_SWITCH, filter.getThrowSwitch());
         addPagin(pagin, _TRAMPLE_CROPS, filter.getTrampleCrops());
         addPagin(pagin, _USE_MACHINES, filter.getUseMachines());
+        addPagin(pagin, _HUNGER, filter.getHunger());
     }
 
     public static void blockFilter(ChatPaginator pagin, IProtected target) {
