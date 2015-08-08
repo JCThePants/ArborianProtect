@@ -63,7 +63,7 @@ public final class HungerSubCommand extends AbstractProtectCommand implements IE
 
         FilterPermission permission = args.getEnum("allow|deny|default", FilterPermission.class);
 
-        target.getPlayerEventFilter().setIgnite(permission);
+        target.getPlayerEventFilter().setHunger(permission);
 
         tellSuccess(sender, Lang.get(_SUCCESS,
                 permission.name(), target.getName()));
