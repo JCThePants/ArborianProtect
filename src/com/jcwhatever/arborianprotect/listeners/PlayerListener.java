@@ -33,6 +33,7 @@ import com.jcwhatever.nucleus.utils.materials.Materials;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -50,6 +51,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 /**
@@ -238,6 +240,21 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOW)
+    private void onEntityItemBreak(EntityDamageByEntityEvent event) {
+
+        if (event.getEntity().getType() != EntityType.ARMOR_STAND &&
+                event.getEntity().getType() != EntityType.ITEM_FRAME) {
+            return;
+        }
+
+        if (event.getDamager() instanceof Player && ArborianProtect.isExempt((Player) event.getDamager()))
+            return;
+
+        Location location = event.getEntity().getLocation(HANGING_BREAK_LOCATION);
+        BREAK.processEvent(location, event);
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
     private void onPlaceBlock(BlockPlaceEvent event) {
 
         if (ArborianProtect.isExempt(event.getPlayer()))
@@ -294,6 +311,21 @@ public class PlayerListener implements Listener {
             return;
 
         Location location = event.getEntity().getLocation(HANGING_PLACE_LOCATION);
+        PLACE.processEvent(location, event);
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    private void onEntityItemPlace(PlayerInteractEntityEvent event) {
+
+        if (event.getRightClicked().getType() != EntityType.ARMOR_STAND &&
+                event.getRightClicked().getType() != EntityType.ITEM_FRAME) {
+            return;
+        }
+
+        if (ArborianProtect.isExempt(event.getPlayer()))
+            return;
+
+        Location location = event.getRightClicked().getLocation(HANGING_PLACE_LOCATION);
         PLACE.processEvent(location, event);
     }
 
@@ -453,7 +485,9 @@ public class PlayerListener implements Listener {
 
         Player player = (Player)human;
 
-        if (ArborianProtect.isExempt(player))
+        // allow filling hunger
+        int delta = event.getFoodLevel() - player.getFoodLevel();
+        if (delta >= 0)
             return;
 
         Location location = player.getLocation(HUNGER_LOCATION);
