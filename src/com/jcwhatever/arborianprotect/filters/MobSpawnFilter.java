@@ -26,24 +26,23 @@ package com.jcwhatever.arborianprotect.filters;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import com.jcwhatever.nucleus.storage.serialize.DeserializeException;
 import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.storage.serialize.DeserializeException;
 import com.jcwhatever.nucleus.storage.serialize.IDataNodeSerializable;
 import com.jcwhatever.nucleus.utils.CollectionUtils;
 import com.jcwhatever.nucleus.utils.EnumUtils;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.entity.EntityTypes;
-
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Nullable;
 
 /**
  * Creature spawn filter settings.
@@ -108,7 +107,9 @@ public class MobSpawnFilter implements IFilterPolicy, IDataNodeSerializable {
         // prevent chicken from spawning when zombie is removed for natural spawn (Chicken Jockey)
         // caveat: Cant spawn jockeys if skeleton or chicken is denied natural spawn.
         if ((type == EntityType.SKELETON && reason == SpawnReason.JOCKEY) ||
-                (type == EntityType.CHICKEN && reason == SpawnReason.MOUNT)) {
+                (type == EntityType.CHICKEN && (reason == SpawnReason.MOUNT ||
+                            reason == SpawnReason.JOCKEY))) {
+
             if (!canSpawn(type, SpawnReason.NATURAL))
                 return false;
         }
