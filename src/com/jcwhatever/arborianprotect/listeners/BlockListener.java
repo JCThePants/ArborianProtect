@@ -26,7 +26,6 @@ package com.jcwhatever.arborianprotect.listeners;
 
 import com.jcwhatever.arborianprotect.IProtected;
 import com.jcwhatever.arborianprotect.filters.FilterPermission;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -36,6 +35,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFadeEvent;
+import org.bukkit.event.block.BlockGrowEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.block.BlockSpreadEvent;
@@ -213,12 +213,29 @@ public class BlockListener implements Listener {
         Location location = event.getBlock().getLocation(BLOCK_SPREAD_LOCATION);
         Material material = event.getBlock().getType();
 
-        if (material != Material.VINE &&
-                material != Material.BROWN_MUSHROOM &&
-                material != Material.RED_MUSHROOM &&
-                material != Material.GRASS &&
-                material != Material.MYCEL)
-            return;
+        switch (material) {
+            case VINE:
+                VINE_GROWTH.processEvent(location, event);
+                break;
+            case RED_MUSHROOM:
+                // fall through
+            case BROWN_MUSHROOM:
+                MUSHROOM_GROWTH.processEvent(location, event);
+                break;
+            case GRASS:
+                GRASS_GROWTH.processEvent(location, event);
+                break;
+            case MYCEL:
+                MYCEL_GROWTH.processEvent(location, event);
+                break;
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    private void onBlockGrow(BlockGrowEvent event) {
+
+        Location location = event.getBlock().getLocation(BLOCK_SPREAD_LOCATION);
+        Material material = event.getBlock().getType();
 
         switch (material) {
             case VINE:
