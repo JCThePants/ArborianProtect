@@ -29,6 +29,7 @@ import com.jcwhatever.arborianprotect.IProtected;
 import com.jcwhatever.arborianprotect.Lang;
 import com.jcwhatever.arborianprotect.filters.BlockEventFilter;
 import com.jcwhatever.arborianprotect.filters.FilterPermission;
+import com.jcwhatever.arborianprotect.filters.MobEventFilter;
 import com.jcwhatever.arborianprotect.filters.PlayerEventFilter;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
@@ -127,7 +128,12 @@ public final class StasisCommand
         tellSet(sender, "Ignite", permission);
 
         players.setTrampleCrops(permission);
-        tellSet(sender, "Trample Crops", permission);
+        tellSet(sender, "Players Trample Crops", permission);
+
+        MobEventFilter mobEvents = target.getMobEventFilter();
+
+        mobEvents.setTrampleCrops(permission);
+        tellSet(sender, "Mobs Trample Crops", permission);
     }
 }
 
