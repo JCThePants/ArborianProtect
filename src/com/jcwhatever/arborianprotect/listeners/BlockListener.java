@@ -35,7 +35,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFadeEvent;
-import org.bukkit.event.block.BlockGrowEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.block.BlockSpreadEvent;
@@ -210,32 +209,8 @@ public class BlockListener implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     private void onBlockSpread(BlockSpreadEvent event) {
 
-        Location location = event.getBlock().getLocation(BLOCK_SPREAD_LOCATION);
-        Material material = event.getBlock().getType();
-
-        switch (material) {
-            case VINE:
-                VINE_GROWTH.processEvent(location, event);
-                break;
-            case RED_MUSHROOM:
-                // fall through
-            case BROWN_MUSHROOM:
-                MUSHROOM_GROWTH.processEvent(location, event);
-                break;
-            case GRASS:
-                GRASS_GROWTH.processEvent(location, event);
-                break;
-            case MYCEL:
-                MYCEL_GROWTH.processEvent(location, event);
-                break;
-        }
-    }
-
-    @EventHandler(priority = EventPriority.LOW)
-    private void onBlockGrow(BlockGrowEvent event) {
-
-        Location location = event.getBlock().getLocation(BLOCK_SPREAD_LOCATION);
-        Material material = event.getBlock().getType();
+        Location location = event.getSource().getLocation(BLOCK_SPREAD_LOCATION);
+        Material material = event.getSource().getType();
 
         switch (material) {
             case VINE:
