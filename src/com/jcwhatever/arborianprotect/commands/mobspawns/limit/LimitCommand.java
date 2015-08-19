@@ -22,28 +22,23 @@
  * THE SOFTWARE.
  */
 
-package com.jcwhatever.arborianprotect.commands.mobspawns;
+package com.jcwhatever.arborianprotect.commands.mobspawns.limit;
 
-import com.jcwhatever.arborianprotect.commands.mobspawns.limit.LimitCommand;
-import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
+import com.jcwhatever.arborianprotect.commands.mobspawns.limit.natural.NaturalCommand;
+import com.jcwhatever.arborianprotect.commands.mobspawns.limit.spawners.SpawnersCommand;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 
 @CommandInfo(
-        command="mobspawns",
-        description="Manage mob spawning.")
+        command={ "limit", "limits" },
+        description="Manage mob spawn count limiting.")
 
-public final class MobSpawnsCommand extends AbstractCommand {
+public final class LimitCommand extends AbstractCommand {
 
-    public MobSpawnsCommand() {
+    public LimitCommand() {
         super();
 
-        registerCommand(LimitCommand.class);
-
-        registerCommand(AddSubCommand.class);
-        registerCommand(AnimalsSubCommand.class);
-        registerCommand(DelSubCommand.class);
-        registerCommand(InfoSubCommand.class);
-        registerCommand(MonstersSubCommand.class);
-        registerCommand(PolicySubCommand.class);
+        registerCommand(NaturalCommand.class);
+        registerCommand(SpawnersCommand.class);
     }
 }

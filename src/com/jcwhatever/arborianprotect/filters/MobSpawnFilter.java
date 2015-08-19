@@ -53,6 +53,16 @@ public class MobSpawnFilter implements IFilterPolicy, IDataNodeSerializable {
     private FilterPolicy _policy = FilterPolicy.BLACKLIST;
     private Multimap<EntityType, SpawnReason> _reasonMap;
 
+    private boolean _isSpawnerLimitEnabled;
+    private int _spawnerLimit = 75;
+    private int _spawnerDelayLimited = 60 * 20;
+    private int _spawnerDelay = 30 * 20;
+    private int _spawnerLimitChunkRadius = 1;
+
+    private boolean _isNaturalLimitEnabled;
+    private int _naturalLimit = 75;
+    private int _naturalLimitChunkRadius = 1;
+
     private MobSpawnFilter() {}
 
     /**
@@ -72,9 +82,169 @@ public class MobSpawnFilter implements IFilterPolicy, IDataNodeSerializable {
 
     @Override
     public void setPolicy(FilterPolicy policy) {
-        _policy = policy;
-        _dataNode.set("policy", policy);
-        _dataNode.save();
+        PreCon.notNull(policy);
+
+        save("policy", _policy = policy);
+    }
+
+    /**
+     * Determine if spawner limiting is enabled.
+     */
+    public boolean isSpawnerLimitEnabled() {
+        return _isSpawnerLimitEnabled;
+    }
+
+    /**
+     * Set spawner limiting enabled state.
+     *
+     * @param isEnabled  True to enable, otherwise false.
+     */
+    public void setSpawnerLimitEnabled(boolean isEnabled) {
+        save("spawner-limit-enabled", _isSpawnerLimitEnabled = isEnabled);
+    }
+
+    /**
+     * Get the spawner mob limit.
+     *
+     * <p>This sets the max number of mobs allowed in the chunk
+     * radius of the spawner. The spawner will not spawn any new mobs
+     * if this limit is reached.</p>
+     *
+     * <p>Value is only used if {@link #isSpawnerLimitEnabled()} returns true.</p>
+     */
+    public int getSpawnerLimit() {
+        return _spawnerLimit;
+    }
+
+    /**
+     * Set the spawner mob limit.
+     *
+     * @param limit  The max number of mobs allowed in the chunk radius of the spawner.
+     */
+    public void setSpawnerLimit(int limit) {
+        save("spawner-limit", _spawnerLimit = limit);
+    }
+
+    /**
+     * Get the radius, in chunks, that mobs are counted from when tabulating
+     * the number of mobs that are currently spawned.
+     *
+     * <p>Used in conjunction with {@link #getSpawnerLimit()} to stop the spawner
+     * if the maximum number of mobs is reached.</p>
+     *
+     * <p>Value is only used if {@link #isSpawnerLimitEnabled()} returns true.</p>
+     */
+    public int getSpawnerLimitRadius() {
+        return _spawnerLimitChunkRadius;
+    }
+
+    /**
+     * Set the radius, in chunks, that mobs are counted from when tabulating
+     * the number of mobs that are currently spawned.
+     *
+     * @param chunkRadius  The radius. A value of 0 indicates that only the chunk the
+     *                     spawner is in should be used.
+     */
+    public void setSpawnerLimitRadius(int chunkRadius) {
+        save("spawner-limit-chunk-radius", _spawnerLimitChunkRadius = chunkRadius);
+    }
+
+    /**
+     * Get the delay, in ticks, between mobs spawned from spawner.
+     *
+     * <p>Value is only used if {@link #isSpawnerLimitEnabled()} returns true.</p>
+     */
+    public int getSpawnerDelay() {
+        return _spawnerDelay;
+    }
+
+    /**
+     * Set the delay, in ticks, between mobs spawned from spawners.
+     *
+     * @param ticks  The delay time in ticks.
+     */
+    public void setSpawnerDelay(int ticks) {
+        save("spawner-delay", _spawnerDelay = ticks);
+    }
+
+    /**
+     * Get the delay, in ticks, between mobs spawned from spawners after
+     * the spawner limit is reached.
+     *
+     * <p>Value is only used if {@link #isSpawnerLimitEnabled()} returns true.</p>
+     */
+    public int getSpawnerDelayLimited() {
+        return _spawnerDelayLimited;
+    }
+
+    /**
+     * Set the delay, in ticks, between mobs spawned from spawners after
+     * the spawner limit is reached.
+     *
+     * @param ticks  The delay in ticks.
+     */
+    public void setSpawnerDelayLimited(int ticks) {
+        save("spawner-delay-limited", _spawnerDelayLimited = ticks);
+    }
+
+    /**
+     * Determine if limiting of natural spawns is enabled.
+     */
+    public boolean isNaturalLimitEnabled() {
+        return _isNaturalLimitEnabled;
+    }
+
+    /**
+     * Set the natural limit enabled state.
+     *
+     * @param isEnabled  True to enable, otherwise false.
+     */
+    public void setNaturalLimitEnabled(boolean isEnabled) {
+        save("natural-limit-enabled", _isNaturalLimitEnabled = isEnabled);
+    }
+
+    /**
+     * Get the limit on the number of mobs that can exist within a pre-defined radius
+     * around the naturally spawning mobs location in order for the spawn to be allowed.
+     *
+     * <p>Value is only used if {@link #isNaturalLimitEnabled()} returns true.</p>
+     */
+    public int getNaturalLimit() {
+        return _naturalLimit;
+    }
+
+    /**
+     * Set the limit on the number of mobs that can exist within a pre-defined radius
+     * around the naturally spawning mobs location in order for the spawn to be allowed.
+     *
+     * @param limit  The mob limit.
+     */
+    public void setNaturalLimit(int limit) {
+        save("natural-limit", _naturalLimit = limit);
+    }
+
+    /**
+     * Get the radius, in chunks, that mobs are counted from when tabulating
+     * the number of mobs that are currently spawned.
+     *
+     * <p>Used in conjunction with {@link #getNaturalLimit()} to prevent spawning
+     * if the maximum number of mobs is reached.</p>
+     *
+     * <p>Value is only used if {@link #isNaturalLimitEnabled()} returns true.</p>
+     */
+    public int getNaturalLimitRadius() {
+        return _naturalLimitChunkRadius;
+    }
+
+    /**
+     * Set the radius, in chunks, that mobs are counted from when tabulating
+     * the number of mobs that are currently spawned.
+     *
+     * @param chunkRadius  The radius. A value of 0 indicates that only the chunk where the
+     *                     natural spawn is taking place should be used.
+     */
+    public void setNaturalLimitRadius(int chunkRadius) {
+        save("natural-limit-chunk-radius", _naturalLimitChunkRadius = chunkRadius);
     }
 
     /**
@@ -294,6 +464,16 @@ public class MobSpawnFilter implements IFilterPolicy, IDataNodeSerializable {
 
         dataNode.set("policy", _policy);
 
+        dataNode.set("spawner-limit-enabled", _isSpawnerLimitEnabled);
+        dataNode.set("spawner-limit", _spawnerLimit);
+        dataNode.set("spawner-limit-chunk-radius", _spawnerLimitChunkRadius);
+        dataNode.set("spawner-delay", _spawnerDelay);
+        dataNode.set("spawner-delay-limited", _spawnerDelayLimited);
+
+        dataNode.set("natural-limit-enabled", _isNaturalLimitEnabled);
+        dataNode.set("natural-limit", _naturalLimit);
+        dataNode.set("natural-limit-chunk-radius", _naturalLimitChunkRadius);
+
         if (_reasonMap != null) {
 
             IDataNode reasonsNode = dataNode.getNode("reasons");
@@ -319,8 +499,17 @@ public class MobSpawnFilter implements IFilterPolicy, IDataNodeSerializable {
     public void deserialize(IDataNode dataNode) throws DeserializeException {
 
         _dataNode = dataNode;
-
         _policy = dataNode.getEnum("policy", FilterPolicy.BLACKLIST, FilterPolicy.class);
+
+        _isSpawnerLimitEnabled = dataNode.getBoolean("spawner-limit-enabled", _isSpawnerLimitEnabled);
+        _spawnerLimit = dataNode.getInteger("spawner-limit", _spawnerLimit);
+        _spawnerLimitChunkRadius = dataNode.getInteger("spawner-limit-chunk-radius", _spawnerLimitChunkRadius);
+        _spawnerDelay = dataNode.getInteger("spawner-delay", _spawnerDelay);
+        _spawnerDelayLimited = dataNode.getInteger("spawner-delay-limited", _spawnerDelayLimited);
+
+        _isNaturalLimitEnabled = dataNode.getBoolean("natural-limit-enabled", _isNaturalLimitEnabled);
+        _naturalLimit = dataNode.getInteger("natural-limit", _naturalLimit);
+        _naturalLimitChunkRadius = dataNode.getInteger("natural-limit-chunk-radius", _naturalLimitChunkRadius);
 
         IDataNode reasonsNode = dataNode.getNode("reasons");
         if (reasonsNode.size() > 0) {
@@ -352,6 +541,11 @@ public class MobSpawnFilter implements IFilterPolicy, IDataNodeSerializable {
 
     private void save() {
         _dataNode.set("", this);
+        _dataNode.save();
+    }
+
+    private void save(String key, Object value) {
+        _dataNode.set(key, value);
         _dataNode.save();
     }
 
