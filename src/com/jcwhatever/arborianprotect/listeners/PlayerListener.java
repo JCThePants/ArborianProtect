@@ -28,6 +28,7 @@ import com.jcwhatever.arborianprotect.ArborianProtect;
 import com.jcwhatever.arborianprotect.IProtected;
 import com.jcwhatever.arborianprotect.filters.FilterPermission;
 import com.jcwhatever.nucleus.events.block.PlayerTransformBlockEvent;
+import com.jcwhatever.nucleus.providers.npc.Npcs;
 import com.jcwhatever.nucleus.utils.entity.EntityUtils;
 import com.jcwhatever.nucleus.utils.materials.Materials;
 import org.bukkit.Location;
@@ -206,6 +207,9 @@ public class PlayerListener implements Listener {
 
         Entity damager = EntityUtils.getDamager(event.getDamager());
         if (!(damager instanceof Player))
+            return;
+
+        if (Npcs.isNpc(entity) || Npcs.isNpc(damager))
             return;
 
         if (ArborianProtect.isExempt((Player)damager))
