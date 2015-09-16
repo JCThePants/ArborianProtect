@@ -321,7 +321,7 @@ public class BlockEventFilter implements IDataNodeSerializable {
         PreCon.notNull(permission);
 
         _mobChangeBlock = permission;
-        _dataNode.set("entity-change-block", _mobChangeBlock);
+        _dataNode.set("mob-change-block", _mobChangeBlock);
         _dataNode.save();
     }
 
