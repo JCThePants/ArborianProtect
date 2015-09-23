@@ -156,10 +156,10 @@ public class InfoPaginFiller {
 
             switch (policy) {
                 case BLACKLIST:
-                    modified.add(Lang.get(_BLACKLIST_ITEM, name));
+                    modified.add(Lang.get(_BLACKLIST_ITEM, name).toString());
                     break;
                 case WHITELIST:
-                    modified.add(Lang.get(_WHITELIST_ITEM, name));
+                    modified.add(Lang.get(_WHITELIST_ITEM, name).toString());
                     break;
             }
         }
@@ -170,11 +170,11 @@ public class InfoPaginFiller {
     private static String getText(FilterPermission permission) {
         switch (permission) {
             case ALLOW:
-                return Lang.get(_ALLOW);
+                return Lang.get(_ALLOW).toString();
             case DENY:
-                return Lang.get(_DENY);
+                return Lang.get(_DENY).toString();
             default:
-                return Lang.get(_DEFAULT);
+                return Lang.get(_DEFAULT).toString();
         }
     }
 

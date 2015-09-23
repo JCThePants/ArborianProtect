@@ -24,7 +24,6 @@
 
 package com.jcwhatever.arborianprotect.commands.players;
 
-import com.jcwhatever.arborianprotect.ArborianProtect;
 import com.jcwhatever.arborianprotect.IProtected;
 import com.jcwhatever.arborianprotect.Lang;
 import com.jcwhatever.arborianprotect.commands.AbstractProtectCommand;
@@ -36,7 +35,6 @@ import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
-
 import org.bukkit.command.CommandSender;
 
 @CommandInfo(
@@ -66,8 +64,7 @@ public final class InfoSubCommand extends AbstractProtectCommand implements IExe
         if (target == null)
             return;
 
-        ChatPaginator pagin = new ChatPaginator(ArborianProtect.getPlugin(),
-                5, Lang.get(_PAGINATOR_TITLE, target.getName()));
+        ChatPaginator pagin = createPagin(args, 5, Lang.get(_PAGINATOR_TITLE, target.getName()));
 
         InfoPaginFiller.playerFilter(pagin, target);
 

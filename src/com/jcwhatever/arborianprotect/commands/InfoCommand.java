@@ -24,7 +24,6 @@
 
 package com.jcwhatever.arborianprotect.commands;
 
-import com.jcwhatever.arborianprotect.ArborianProtect;
 import com.jcwhatever.arborianprotect.IProtected;
 import com.jcwhatever.arborianprotect.Lang;
 import com.jcwhatever.arborianprotect.regions.ProtectedRegion;
@@ -35,7 +34,6 @@ import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
-
 import org.bukkit.command.CommandSender;
 
 @CommandInfo(
@@ -74,8 +72,7 @@ public final class InfoCommand extends AbstractProtectCommand implements IExecut
         if (target == null)
             return;
 
-        ChatPaginator pagin = new ChatPaginator(ArborianProtect.getPlugin(),
-                7, Lang.get(_PAGINATOR_TITLE, target.getName()));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE, target.getName()));
 
         if (target instanceof ProtectedRegion) {
             ProtectedRegion region = (ProtectedRegion)target;

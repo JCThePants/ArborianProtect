@@ -61,8 +61,7 @@ public final class ListSubCommand extends AbstractProtectCommand implements IExe
 
         Collection<ProtectedRegion> regions = ArborianProtect.getRegionManager().getAll();
 
-        ChatPaginator pagin = new ChatPaginator(ArborianProtect.getPlugin(), 7,
-                Lang.get(_PAGINATOR_TITLE));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE));
 
         for (ProtectedRegion region : regions) {
             pagin.add(region.getName(), region.getWorldName() + ", priority: " + region.getPriority());
